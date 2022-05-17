@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Card, Button, Col, Row, Form } from 'react-bootstrap';
-import bg from '../../assets/img/bg/pexels-george-becker-298611.jpg';
-import UserStore from '../stores/UserStore';
 
 const cookies = new Cookies();
 
-class LoginForm extends Component{
+class LoginFormCliente extends Component{
 
   constructor(props) {
     super(props);
@@ -109,4 +107,4 @@ class LoginForm extends Component{
   }
 }
 
-export default LoginForm;
+export default LoginFormCliente;

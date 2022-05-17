@@ -4,7 +4,9 @@ import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import UserStore from '../stores/UserStore';
-import LoginForm from "../login/Login";
+import LoginFormCliente from "../login/LoginCliente";
+import RegistroCliente from "../login/RegistroCliente";
+import RegistroClienteSucess from "../login/RegistroClienteSuccess";
 import Main from "../main/Main";
 import Dashboard from "../dashboard/Dashboard";
 
@@ -48,7 +50,8 @@ const NavBar = props => {
                       </>
                     ):(
                       <>
-                        <NavLink to="/login" onClick={() => setMain('/login')}>No tengo una cuenta</NavLink>
+                        <NavLink to="/login" onClick={() => setMain('/login')}>Ingresar a mi cuenta</NavLink>
+                        <NavLink to="/registro_cliente" onClick={() => setMain('/login')}>No tengo una cuenta</NavLink>
                       </>
                     ) }
                   </>
@@ -60,7 +63,9 @@ const NavBar = props => {
 
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/login" element={<LoginFormCliente />} />
+          <Route path="/registro_cliente" element={<RegistroCliente />} />
+          <Route path="/registro_cliente_success" element={<RegistroClienteSucess />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
 
