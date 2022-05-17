@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Card, Button, Col, Row, Form } from 'react-bootstrap';
 import bg from '../../assets/img/bg/pexels-george-becker-298611.jpg';
+import UserStore from '../stores/UserStore';
 
 const cookies = new Cookies();
 
@@ -32,6 +33,7 @@ class LoginForm extends Component{
     })
   }
 
+  //ARRANQUE DEL LOGIN
   async doLogin(){
 
     if (this.state.username !== '' || this.state.password !== '') {
