@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Form, Button } from 'react-bootstrap';
+import { Col, Row, Form, Button, Card } from 'react-bootstrap';
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import UserStore from '../stores/UserStore';
@@ -100,9 +100,83 @@ const Dashboard = props => {
           </Form.Select>
         </Form.Group>
 
+        <Form.Group className="mb-3">
+          <Row>
+            <Col className="mb-4">
+              Año
+            </Col>
+            <Col className="mb-4">
+              Mes
+            </Col>
+            <Col className="mb-4">
+              Dia
+            </Col>
+          </Row>
+          <Row>
+            <Col className="mb-4">
+              <Form.Select aria-label="Default select example">
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+              </Form.Select>
+            </Col>
+            <Col className="mb-4">
+              <Form.Select aria-label="Default select example">
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+              </Form.Select>
+            </Col>
+            <Col className="mb-4">
+              <Form.Select aria-label="Default select example">
+                <option value="2022">01</option>
+                <option value="2023">02</option>
+              </Form.Select>
+            </Col>
+          </Row>
+        </Form.Group>
+
         <Form.Group className="mb-3 d-grid gap-2">
           <Button variant="info">BUSCAR</Button>
         </Form.Group>
+
+        </Col>
+        <Col className="p-5">
+
+          <h1>Citas disponibles</h1>
+          <h3>Fecha: xx-xx-xxxx</h3>
+
+          <Card style={{ width: '10rem' }}>
+            <Card.Body>
+              <Card.Text>
+                8:00 AM
+              </Card.Text>
+            </Card.Body>
+          </Card>
+
+          <Card style={{ width: '10rem' }}>
+            <Card.Body>
+              <Card.Text>
+                9:00 AM
+              </Card.Text>
+            </Card.Body>
+          </Card>
+
+          <Card style={{ width: '10rem' }}>
+            <Card.Body>
+              <Card.Text>
+                10:00 AM
+              </Card.Text>
+            </Card.Body>
+          </Card>
 
         </Col>
       </Row>

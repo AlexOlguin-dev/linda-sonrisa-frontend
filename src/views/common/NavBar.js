@@ -4,11 +4,15 @@ import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import UserStore from '../stores/UserStore';
+//LOGIN
 import LoginFormCliente from "../login/LoginCliente";
 import RegistroCliente from "../login/RegistroCliente";
 import RegistroClienteSucess from "../login/RegistroClienteSuccess";
+//MAIN
 import Main from "../main/Main";
-import Dashboard from "../dashboard/Dashboard";
+//CLIENTE
+import Dashboard from "../cliente/Dashboard";
+import Resumen from "../cliente/Resumen";
 
 const NavBar = props => {
 
@@ -67,6 +71,7 @@ const NavBar = props => {
           <Route path="/registro_cliente" element={<RegistroCliente />} />
           <Route path="/registro_cliente_success" element={<RegistroClienteSucess />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/resumen" element={<Resumen />} />
         </Routes>
 
         </BrowserRouter>
