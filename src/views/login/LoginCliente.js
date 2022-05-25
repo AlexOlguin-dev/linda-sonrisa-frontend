@@ -48,7 +48,9 @@ class LoginFormCliente extends Component{
         .then(response => response.json())
         .then(result => {
           if (result.resp === 'autorizado') {
-            cookies.set('username','alex',{path:'/'});
+            cookies.set('rut_cliente',this.state.username,{path:'/'});
+            cookies.set('username',result.user[0].nombres,{path:'/'});
+            cookies.set('username2',result.user[0].apellidos,{path:'/'});
             cookies.set('isLoggedIn','logeado',{path:'/'});
             window.location.href="./dashboard"
           }else{
@@ -59,7 +61,7 @@ class LoginFormCliente extends Component{
     }else{
       alert("No pueden quedar campos vacios")
     }
-    
+
   }
 
   render(){
@@ -70,10 +72,10 @@ class LoginFormCliente extends Component{
           <Row className="justify-content-md-center" style={{ marginTop: '100px' }}>
             <Col xs="6"> 
               <Card>
-                <Card.Header className="text-center">Login</Card.Header>
+                <Card.Header className="text-center"><h3>Login</h3></Card.Header>
                 <Card.Body>
                   
-                  <Form.Label htmlFor="username">Nombre Usuario:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Nombre Usuario:</Form.Label>
                   <Form.Control 
                     type="text" 
                     id="username" 
@@ -82,7 +84,7 @@ class LoginFormCliente extends Component{
                     value={this.state.username ? this.state.username : ''}  
                   />
 
-                  <Form.Label htmlFor="password">Contraseña:</Form.Label>
+                  <Form.Label htmlFor="password" className="fs-5 text">Contraseña:</Form.Label>
                   <Form.Control 
                     type="password" 
                     id="password" 
@@ -92,9 +94,13 @@ class LoginFormCliente extends Component{
                   />
 
                   <br />
-                  <Button variant="primary" type="submit" onClick={() => this.doLogin()}>
-                    Ingresar
-                  </Button>
+                  <Row>
+                    <Col className="text-center">
+                      <Button variant="primary" type="submit" onClick={() => this.doLogin()}>
+                        Ingresar
+                      </Button>
+                    </Col>
+                  </Row>
 
                 </Card.Body>
               </Card>

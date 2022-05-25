@@ -107,11 +107,11 @@ class RegistroCliente extends Component{
           <Row className="justify-content-md-center" style={{ marginTop: '100px', marginBottom: '100px' }}>
             <Col xs="6">
               <Card>
-                <Card.Header className="text-center">Ingrese sus datos</Card.Header>
+                <Card.Header className="text-center"><h3>Ingrese sus datos</h3></Card.Header>
 
                 <Card.Body>
 
-                  <Form.Label htmlFor="username">Rut:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Rut:</Form.Label>
                   <Form.Control 
                     type="text" 
                     id="rut" 
@@ -120,7 +120,7 @@ class RegistroCliente extends Component{
                     value={this.state.rut ? this.state.rut : ''}  
                   />
 
-                  <Form.Label htmlFor="username">Contraseña:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Contraseña:</Form.Label>
                   <Form.Control 
                     type="password" 
                     id="pass" 
@@ -129,7 +129,7 @@ class RegistroCliente extends Component{
                     value={this.state.password ? this.state.password : ''}  
                   />
 
-                  <Form.Label htmlFor="username">Confirmar Contraseña:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Confirmar Contraseña:</Form.Label>
                   <Form.Control 
                     type="password" 
                     id="pass_confirm" 
@@ -138,7 +138,7 @@ class RegistroCliente extends Component{
                     value={this.state.password_confirm ? this.state.password_confirm : ''}  
                   />
 
-                  <Form.Label htmlFor="username">Email:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Email:</Form.Label>
                   <Form.Control 
                     type="email" 
                     id="mail" 
@@ -147,7 +147,7 @@ class RegistroCliente extends Component{
                     value={this.state.mail ? this.state.mail : ''}  
                   />
                   
-                  <Form.Label htmlFor="username">Telefono:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Telefono:</Form.Label>
                   <Form.Control 
                     type="text" 
                     id="telefono" 
@@ -156,7 +156,7 @@ class RegistroCliente extends Component{
                     value={this.state.telefono ? this.state.telefono : ''}  
                   />
                   
-                  <Form.Label htmlFor="username">Nombres:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Nombres:</Form.Label>
                   <Form.Control 
                     type="text" 
                     id="nombres" 
@@ -165,7 +165,7 @@ class RegistroCliente extends Component{
                     value={this.state.nombres ? this.state.nombres : ''}  
                   />
                   
-                  <Form.Label htmlFor="username">Apellidos:</Form.Label>
+                  <Form.Label htmlFor="username" className="fs-5 text">Apellidos:</Form.Label>
                   <Form.Control 
                     type="text" 
                     id="apellidos" 
@@ -175,9 +175,13 @@ class RegistroCliente extends Component{
                   />
 
                   <br />
-                  <Button variant="primary" type="submit" onClick={() => this.doRegistro()}>
-                    Registrar
-                  </Button>
+                  <Row>
+                    <Col className="text-center">
+                      <Button variant="primary" type="submit" onClick={() => this.doRegistro()}>
+                        Registrar
+                      </Button>
+                    </Col>
+                  </Row>
 
                 </Card.Body>
 
