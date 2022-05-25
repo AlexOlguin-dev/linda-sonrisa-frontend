@@ -59,7 +59,7 @@ class LoginFormCliente extends Component{
     }else{
       alert("No pueden quedar campos vacios")
     }
-
+    
   }
 
   render(){
