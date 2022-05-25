@@ -10,6 +10,7 @@ import RegistroCliente from "../login/RegistroCliente";
 import RegistroClienteSucess from "../login/RegistroClienteSuccess";
 //MAIN
 import Main from "../main/Main";
+import Footer from "../common/Footer";
 //CLIENTE
 import Dashboard from "../cliente/Dashboard";
 import Resumen from "../cliente/Resumen";
@@ -56,7 +57,7 @@ const NavBar = props => {
                       </>
                     ):(
                       <>
-                        <NavLink to="/admin" onClick={() => setMain('/login')}><Button variant="primary">VistaAdmin</Button></NavLink>
+                        {/*<NavLink to="/admin" onClick={() => setMain('/login')}><Button variant="primary">VistaAdmin</Button></NavLink>*/}
                         <NavLink to="/login" onClick={() => setMain('/login')}><Button variant="primary">Ingresar a cuenta</Button></NavLink>
                         <NavLink to="/registro_cliente" onClick={() => setMain('/login')}><Button variant="primary">No tengo cuenta</Button></NavLink>
                       </>
@@ -77,6 +78,8 @@ const NavBar = props => {
           <Route path="/resumen" element={<Resumen />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
+
+        <Footer />
 
         </BrowserRouter>
     </>
