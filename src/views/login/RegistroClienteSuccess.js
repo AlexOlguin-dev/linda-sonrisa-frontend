@@ -7,7 +7,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 const RegistroClienteSucess = props => {
 
   function goToLogin(){
-    window.location.href="./login"
+    window.location.href="./login_cliente"
   }
 
   return (

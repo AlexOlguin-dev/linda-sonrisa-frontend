@@ -52,7 +52,7 @@ const Footer = props => {
                 <a href="#!" className="text-reset">Administrativo</a>
               </p>
               <p>
-                <a href="./admin" className="text-reset">Administrador</a>
+                <a href="./login_admin" className="text-reset">Administrador</a>
               </p>
             </div>
 

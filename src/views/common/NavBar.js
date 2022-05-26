@@ -14,7 +14,9 @@ import Footer from "../common/Footer";
 //CLIENTE
 import Dashboard from "../cliente/Dashboard";
 import Resumen from "../cliente/Resumen";
-import Admin from "../main/Admin";
+//ADMIN
+import LoginFormAdmin from "../login/LoginAdmin";
+import Admin from "../admin/Admin";
 import Servicios from "../main/Servicios";
 
 const NavBar = props => {
@@ -58,7 +60,7 @@ const NavBar = props => {
                     ):(
                       <>
                         {/*<NavLink to="/admin" onClick={() => setMain('/login')}><Button variant="primary">VistaAdmin</Button></NavLink>*/}
-                        <NavLink to="/login" onClick={() => setMain('/login')}><Button variant="primary">Ingresar a cuenta</Button></NavLink>
+                        <NavLink to="/login_cliente" onClick={() => setMain('/login')}><Button variant="primary">Ingresar a cuenta</Button></NavLink>
                         <NavLink to="/registro_cliente" onClick={() => setMain('/login')}><Button variant="primary">No tengo cuenta</Button></NavLink>
                       </>
                     ) }
@@ -71,11 +73,12 @@ const NavBar = props => {
 
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/login" element={<LoginFormCliente />} />
+          <Route path="/login_cliente" element={<LoginFormCliente />} />
           <Route path="/registro_cliente" element={<RegistroCliente />} />
           <Route path="/registro_cliente_success" element={<RegistroClienteSucess />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard_cliente" element={<Dashboard />} />
           <Route path="/resumen" element={<Resumen />} />
+          <Route path="/login_admin" element={<LoginFormAdmin />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
 
