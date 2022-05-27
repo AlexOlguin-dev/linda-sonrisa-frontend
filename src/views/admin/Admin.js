@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { Navigation } from 'react-minimal-side-navigation';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
-import { PROFESIONAL, ADMINISTRATIVE, CLIENT, SERVICE, ORDER, INVENTARY } from '../../commons/constants';
+import { PROFESIONAL, ADMINISTRATIVE, CLIENT, SERVICE, ORDER, PRODUCTOS, PROVEEDORES, ORDENES_PEDIDO, INVENTARY } from '../../commons/constants';
 import Odontologos from './Odontologos';
 import Administrativos from './Administrativos';
 import Pacientes from './Pacientes';
@@ -49,8 +49,22 @@ const Admin = () => {
                 title: 'Servicios',
                 itemId: SERVICE,
               }, {
-                title: 'Pedidos',
-                itemId: ORDER,
+                title: 'Productos y Pedidos',
+                itemId: PRODUCTOS,
+                subNav: [
+                  {
+                    title: 'Productos',
+                    itemId: PRODUCTOS,
+                  },
+                  {
+                    title: 'Proveedores',
+                    itemId: PROVEEDORES,
+                  },
+                  {
+                    title: 'Ordenes de pedido',
+                    itemId: ORDENES_PEDIDO,
+                  },
+                ],
               }, {
                 title: 'Inventario',
                 itemId: INVENTARY,
@@ -77,7 +91,25 @@ const Admin = () => {
             <Tratamientos />
           }
 
-          {route === ORDER &&
+          {route === PRODUCTOS &&
+            <>
+            productos
+            </>
+          }
+
+          {route === PROVEEDORES &&
+            <>
+            proveedores
+            </>
+          }
+
+          {route === ORDENES_PEDIDO && 
+            <>
+            ordenes_pedido
+            </>
+          }
+
+          {/*route === ORDER &&
             <><Row><Col xs="3">
               <Form.Select aria-label="proveedor" style={{ marginTop: "20px" }}>
                 <option>Seleccione Proveedor</option>
@@ -131,7 +163,7 @@ const Admin = () => {
                 </Col>
               </Row>
             </>
-          }
+          */}
 
           {route === INVENTARY &&
             <Row><Col xs="6">

@@ -8,8 +8,10 @@ import { FaTrash, FaEdit } from 'react-icons/fa';
 const Pacientes = props => {
 
   //VARIABLES------------------------------------------------------------------------------------------------------
-  const [show, setShow] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
   const [pacientes,set_pacientes] = useState([]);
+  const [rut_full_delete, set_rut_full_delete] = useState('');
 
   //FORMATOS------------------------------------------------------------------------------------------------
   function dateFormat(d){
@@ -61,15 +63,44 @@ const Pacientes = props => {
         if (result === 'ok') {
           get_pacientes()
         }else{
-          alert("No se pudo eliminar el paciente")
+          if (result === 'DATOS') {
+            set_rut_full_delete(rut)
+            handleShowConfirmDelete()
+          }else{
+            alert("Se produjo un error al eliminar el paciente")
+          }
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function full_delete_paciente(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IktYUDltUWFudldpVU90VGtRUldFMUE9PSIsInZhbHVlIjoidUJBTWF1YXhBL3lacWVvTmlzSCtVVEw3bWNtMnhEbWJkbkEyYk53K1YzTkhLQ2NELzh0SEhYT0k3UFdQZ1NuOTllYkFIYkI1c2lrRDBUVVhIbytEUTRuRGtoNHlTWjZNc2NrdG5WUGZSa20vaDlyU25TanNVYmZXUkl5cWx3ejEiLCJtYWMiOiIzMTFhMmYzMWNjYjdhYWMzMGExMmUyODU1YjFlMzI2YjE2MWE3YWZjYjZmZWFjN2NkM2FiZmMxMmUxY2YwZTM2IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InRVbHB0cHg3WGdTbjV0aXVUc2plQkE9PSIsInZhbHVlIjoiNmtKZVR1Nkk5Z1k4SjNJVmRlM0ZaSFk3SWVVVU9TYlFJbC9pVWIzeDBwUUptT3JCZzRnL1VDbnpHcWZZTmROdEJEY0FjaVJaTGtIMEMxWHhxM2FzczZhVENqNUp1MnBhTlFUdzMvQlk5c3NHS0orNzlwOG5VUnd5NEt4My9oNlUiLCJtYWMiOiI2YjY2YmRlZDFlYjdhOTcxMDEzN2E2NzBkZTU2ODA5YmU1ODAwOWFhMGE4YzVhYWNlODc5Zjc4ODJmNjI2MDU0IiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/full_delete_paciente?rut="+rut_full_delete, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result === 'ok') {
+          alert("Se ha eliminado el paciente y todos los datos relacionados")
+          get_pacientes()
+          handleCloseConfirmDelete()
+        }else{
+          alert("No se ha podido eliminar el paciente ni ninguno de los datos relacionados")
         }
       })
       .catch(error => console.log('error', error));
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
+  const handleShowConfirmDelete = () => setShowConfirmDelete(true);
+  const handleCloseCreate = () => setShowCreate(false);
+  const handleShowCreate = () => setShowCreate(true);
 
   function render_pacientes(){
     return pacientes.map((item) =>{
@@ -127,8 +158,27 @@ const Pacientes = props => {
         </Col>
       </Row>
 
-      {/** MODAL CREAR ODONTOLOGO */}
-      <Modal show={show} onHide={handleClose}>
+      {/** MODAL DATOS AFILIADOS A PACIENTE */}
+      <Modal show={showConfirmDelete} onHide={handleCloseConfirmDelete}>
+        <Modal.Body>
+          <p>
+            Se han detectado datos relacionados con esta cuenta, al eliminar la cuenta
+            se eliminaran todos los datos relacionados ¿Esta seguro de que desea eliminar esta cuenta?
+          </p>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseConfirmDelete}>
+              Cancelar
+            </Button>
+            <Button variant="primary" onClick={full_delete_paciente}>
+              Si, elimina los datos
+            </Button>
+          </Modal.Footer>
+        </Modal.Body>
+      </Modal>
+      {/** MODAL DATOS AFILIADOS A PACIENTE */}
+
+      {/** MODAL CREAR PACIENTE */}
+      <Modal show={showCreate} onHide={handleCloseCreate}>
         <Modal.Header closeButton>
           <Modal.Title>Nuevo Odontologo</Modal.Title>
         </Modal.Header>
@@ -136,7 +186,7 @@ const Pacientes = props => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCloseCreate}>
             Cancelar
           </Button>
           <Button variant="primary" >
@@ -144,7 +194,7 @@ const Pacientes = props => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/** MODAL CREAR ODONTOLOGO */}
+      {/** MODAL CREAR PACIENTE */}
 
     </>
   )

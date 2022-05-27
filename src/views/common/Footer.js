@@ -46,7 +46,7 @@ const Footer = props => {
                 Portal de empleados
               </h6>
               <p>
-                <a href="#!" className="text-reset">Profesional</a>
+                <a href="./login_odontologo" className="text-reset">Profesional</a>
               </p>
               <p>
                 <a href="#!" className="text-reset">Administrativo</a>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from 'react';
+import React, { useState, useEffect, forwardRef, useSyncExternalStore } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Card, Row, Col, Form, Button, ButtonGroup, Modal } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
@@ -13,9 +13,11 @@ const Odontologos = props => {
 
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [odontologos, set_odontologos] = useState([]);
-  const [show, setShow] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [rut, set_rut] = useState('');
+  const [rut_confirm, set_rut_confirm] = useState('');
   const [nombre_completo, set_nombre_completo] = useState('');
   const [password, set_password] = useState('');
   const [password_confirm, set_password_confirm] = useState('');
@@ -115,15 +117,44 @@ const Odontologos = props => {
         if (result === 'ok') {
           get_odontologos()
         }else{
-          alert("No se pudo eliminar el odontologo")
+          if (result === 'DATOS') {
+            set_rut_confirm(rut)
+            handleShowConfirmDelete()
+          }else{
+            alert("Se produjo un error al eliminar el odontologo")
+          }
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function full_eliminar_odontologo(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Ind0d1grUGJRempTSFZiWkR3VE9YWGc9PSIsInZhbHVlIjoiNmE3Y3VYT3ZGc2VMN2t5Ujl3eVZHMEh5cmFrQlBOVVZtL0sydEUrYno2UlVUYkVwbzZRWjFpQ1YrTUY5RzNGS3h3eUxISUg2MU4yQ3pFemNEWlNRQ0d0Zkw2amtLV3VraDhLRVN2N1MwaW84NjhWRm9PNlBMMkJVYWt5TlYxb2oiLCJtYWMiOiI0NDIzMDBmYjFmMjY3MDI0YWQ1ZTJlNDRlNTE2YmYzYTNhY2YxMjE5MGZhMjU0YTNmMGY1NDQ0Y2ZmZTMyZmRlIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IjJtbkZ0TnVkRVBsbVpDUVpmMkZoUXc9PSIsInZhbHVlIjoiR2pJNEhiNW9DU0ZTTkg3TjJwRUdVcy84emlQODNVM29YR2NhOHVOODBQYXE0SWFSMUJWc0JuNHhFdEltczROVy8zancrelZCOWFhUHRqeEkxdEJuVlN1aExBN2s4UUEwRFNBYng1UFl0M1lxYiszTWlmVG8zMTAvU3JuK0tuWDAiLCJtYWMiOiIxNjJjNmRkMGUzN2FjMTRhNDFiMWM1NjlmOGY5MzdjOTg2ZDIxYmU2YjFlYzBhYzlkZDM5OTUxZDFkY2EwZGQ4IiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/full_eliminar_especialista?rut="+rut_confirm, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result === 'ok') {
+          alert("Se ha eliminado el odontologo y todos los datos relacionados")
+          get_odontologos()
+          handleCloseConfirmDelete()
+        }else{
+          alert("No se ha podido eliminar el odontologo ni ninguno de los datos relacionados")
         }
       })
       .catch(error => console.log('error', error));
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
+  const handleShowConfirmDelete = () => setShowConfirmDelete(true);
+  const handleCloseCreate = () => setShowCreate(false);
+  const handleShowCreate = () => setShowCreate(true);
 
   function select_estado_contrato(event){
     set_estado_contrato(event.target.value)
@@ -153,7 +184,7 @@ const Odontologos = props => {
       <Row>
         <Col style={{ padding: '50px 50px 10px 50px' }}>
           <div className="d-grid gap-2">
-            <Button variant="primary" size="lg" onClick={handleShow}>
+            <Button variant="primary" size="lg" onClick={handleShowCreate}>
               <FaPlus /> Crear odontologo
             </Button>
           </div>
@@ -185,8 +216,27 @@ const Odontologos = props => {
         </Col>
       </Row>
 
+      {/** MODAL DELETE CONFIRM */}
+      <Modal show={showConfirmDelete} onHide={handleCloseConfirmDelete}>
+        <Modal.Body>
+          <p>
+            Se han detectado datos relacionados con esta cuenta, al eliminar la cuenta
+            se eliminaran todos los datos relacionados ¿Esta seguro de que desea eliminar esta cuenta?
+          </p>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseConfirmDelete}>
+              Cancelar
+            </Button>
+            <Button variant="primary" onClick={full_eliminar_odontologo}>
+              Si, elimina los datos
+            </Button>
+          </Modal.Footer>
+        </Modal.Body>
+      </Modal>
+      {/** MODAL DELETE CONFIRM */}
+
       {/** MODAL CREAR ODONTOLOGO */}
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showCreate} onHide={handleCloseCreate}>
         <Modal.Header closeButton>
           <Modal.Title>Nuevo Odontologo</Modal.Title>
         </Modal.Header>
@@ -249,7 +299,7 @@ const Odontologos = props => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCloseCreate}>
             Cancelar
           </Button>
           <Button variant="primary" onClick={crear_odontologo}>

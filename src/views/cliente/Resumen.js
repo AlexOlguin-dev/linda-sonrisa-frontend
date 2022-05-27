@@ -58,7 +58,7 @@ const Resumen = props => {
     cookies.remove('CLIENTE_hora')
     cookies.remove('CLIENTE_id_especialidad')
     cookies.remove('CLIENTE_rut_especialista')
-    window.location.href="./dashboard"
+    window.location.href="./dashboard_cliente"
   }
 
   return(

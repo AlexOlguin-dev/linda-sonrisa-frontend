@@ -18,6 +18,9 @@ import Resumen from "../cliente/Resumen";
 import LoginFormAdmin from "../login/LoginAdmin";
 import Admin from "../admin/Admin";
 import Servicios from "../main/Servicios";
+//ODONTOLOGO
+import LoginFormOdontologo from "../login/LoginOdontologo";
+import DashboardEspecialista from "../especialista/Dashboard";
 
 const NavBar = props => {
 
@@ -49,7 +52,7 @@ const NavBar = props => {
               <Navbar.Text>
                 { cookies.get('isLoggedIn') === 'logeado' ? (
                   <>
-                  <button onClick={() => doLogout()}>Salir</button>
+                  <Button variant="secondary" onClick={() => doLogout()}>Cerrar Sesion</Button>
                   </>
                 ):(
                   <>
@@ -80,6 +83,8 @@ const NavBar = props => {
           <Route path="/resumen" element={<Resumen />} />
           <Route path="/login_admin" element={<LoginFormAdmin />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/login_odontologo" element={<LoginFormOdontologo />} />
+          <Route path="/dashboard_odontologo" element={<DashboardEspecialista />} />
         </Routes>
 
         <Footer />

@@ -70,6 +70,26 @@ const Tratamientos = props => {
     }
   }
 
+  function delete_tratamiento(id){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Iko0RHk2WGxWN0YyYjAxd0xQLzQxYXc9PSIsInZhbHVlIjoiWW5XSGpiOW9naTBZTENaS3BybmpYSWVLdmI5alpIM0puZHZTNDdFaUI2MkpURzVFSzVCZXBKVjB2b2FGYUFXWkkvMVNLWHRlT1lTcFY2L0tRY3ZEZjcyU25zMUozQ3hPbUt0MVF3NXFJQ1VFbTZQSjFlYW8xLytkWkxtOHFQSkoiLCJtYWMiOiI2YTBmNTdmOTZjYTdjOWRiZmIwZWRiNzczMjBiY2QxYjU0ODcwMzA5ZjI4YWIyZGIzYWFlZTgzM2NmZjgxMTRlIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IkJlNzJ6VTVIRzNac0Fib1Zvb2dUYkE9PSIsInZhbHVlIjoicVo1eG0yekhGdVRQWG85dkZWY2hmSXdhbUNRUy9qNEZHNndNV0Q3OE1SUlFwSk0wTkM0aTFZTGF2UUpzbkp6TDFoUHJ4emJVdCt6Qk8wbk9KRHAxNWVaVFVZY3A5R2FhcDFRR3hxWDJpb3ZwTmsxbXRRNnZNbWxIZHJXVE5hd0YiLCJtYWMiOiIwZGVjYmQyM2Q3NTMzYzRiNjQyNDlmYWU4ZjE1ODQ4N2RiMDNlMTk1NTA4M2Y0ZWY3MWEwNmU1Mzk0NWYwMjNhIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/delete_tratamientos?id="+id, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result === 'ok') {
+          get_tratamientos()
+        }else{
+          alert("No se pudo eliminar el tratamiento")
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -83,13 +103,13 @@ const Tratamientos = props => {
             <Card.Body>
               <Card.Title>{item.nombre}</Card.Title>
               <Card.Text>
-                <h4>PRECIO: {item.precio}</h4>
+                <h4>${item.precio}</h4>
                 <p>{item.descripcion}</p>
               </Card.Text>
             </Card.Body>
             <Card.Footer className="text-muted text-center">
               <ButtonGroup aria-label="Basic example">
-                <Button variant="danger">Eliminar</Button>
+                <Button variant="danger" onClick={() => {delete_tratamiento(item.id)}}>Eliminar</Button>
                 <Button variant="info">Editar</Button>
               </ButtonGroup>
             </Card.Footer>
