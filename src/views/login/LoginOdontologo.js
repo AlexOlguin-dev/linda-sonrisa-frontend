@@ -45,8 +45,8 @@ class LoginFormOdontologo extends Component{
         .then(response => response.json())
         .then(result => {
           if (result.resp === 'autorizado') {
-            cookies.set('username',result.user[0].username,{path:'/'});
-            cookies.set('isLoggedIn','logeado',{path:'/'});
+            cookies.set('rut_odontologo',this.state.username);
+            cookies.set('isLoggedIn','logeado');
             window.location.href="./dashboard_odontologo";
           }else{
             alert("El usuario o la contraseña no son correctas")
