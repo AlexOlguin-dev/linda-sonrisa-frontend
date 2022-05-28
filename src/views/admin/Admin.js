@@ -3,12 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { Navigation } from 'react-minimal-side-navigation';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
-import { PROFESIONAL, ADMINISTRATIVE, CLIENT, SERVICE, ORDER, PRODUCTOS, PROVEEDORES, ORDENES_PEDIDO, INVENTARY } from '../../commons/constants';
+import { PROFESIONAL, ADMINISTRATIVE, CLIENT, SERVICE, CITAS_AGENDADAS, PRODUCTOS, PROVEEDORES, ORDENES_PEDIDO, INVENTARY, INFORMES } from '../../commons/constants';
 import Odontologos from './Odontologos';
 import Administrativos from './Administrativos';
 import Pacientes from './Pacientes';
 import Tratamientos from './Tratamientos';
-
+import Productos from './Productos';
+import Proveedores from './Proveedores';
+import OrdenesPedido from './OrdenesPedido';
+import CitasAgendadas from './CitasAgendadas';
+import Inventario from './Inventario';
+import Informes from './Informes';
 
 const Admin = () => {
   const [route, setRoute] = useState(PROFESIONAL);
@@ -20,7 +25,7 @@ const Admin = () => {
           {/*-----------------SIDEBAR--------------*/}
           <Navigation
             // you can use your own router's api to get pathname
-            activeItemId={PROFESIONAL}
+            activeItemId={CLIENT}
             onSelect={item => {
               setRoute(item.itemId)
 
@@ -28,8 +33,12 @@ const Admin = () => {
             items={[
               {
                 title: 'Administración Usuarios',
-                itemId: PROFESIONAL,
+                itemId: CLIENT,
                 subNav: [
+                  {
+                    title: 'Paciente',
+                    itemId: CLIENT,
+                  },
                   {
                     title: 'Odontologos',
                     itemId: PROFESIONAL,
@@ -37,10 +46,6 @@ const Admin = () => {
                   {
                     title: 'Administrativo',
                     itemId: ADMINISTRATIVE,
-                  },
-                  {
-                    title: 'Cliente',
-                    itemId: CLIENT,
                   },
                 ],
                 // title: 'Servicios',
@@ -66,8 +71,14 @@ const Admin = () => {
                   },
                 ],
               }, {
+                title: 'Citas Agendadas',
+                itemId: CITAS_AGENDADAS,
+              }, {
                 title: 'Inventario',
                 itemId: INVENTARY,
+              }, {
+                title: 'Informes',
+                itemId: INFORMES,
               }
 
             ]}
@@ -92,21 +103,27 @@ const Admin = () => {
           }
 
           {route === PRODUCTOS &&
-            <>
-            productos
-            </>
+            <Productos />
           }
 
           {route === PROVEEDORES &&
-            <>
-            proveedores
-            </>
+            <Proveedores />
           }
 
           {route === ORDENES_PEDIDO && 
-            <>
-            ordenes_pedido
-            </>
+            <OrdenesPedido />
+          }
+
+          {route === CITAS_AGENDADAS &&
+            <CitasAgendadas />
+          }
+
+          {route === INVENTARY &&
+            <Inventario />
+          }
+
+          {route === INFORMES &&
+            <Informes />
           }
 
           {/*route === ORDER &&
@@ -164,53 +181,6 @@ const Admin = () => {
               </Row>
             </>
           */}
-
-          {route === INVENTARY &&
-            <Row><Col xs="6">
-              <Card style={{ width: '70rem', marginLeft: "30px", marginTop: "20px" }}>
-
-              <Card.Body>
-                <Card.Title>Profesionales</Card.Title>
-                <Card.Text>
-                  <Table responsive="sm">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>ID</th>
-                        <th>Nombre Producto</th>
-                        <th>Stock</th>
-                        <th>Proveedor</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>12</td>
-                        <td>Cepillo cerdas duras</td>
-                        <td>23</td>
-                        <td>Juanito Cepillito</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>10</td>
-                        <td>Hilo dental</td>
-                        <td>30</td>
-                        <td>Juanito Cepillito</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>Gasa esterilizada</td>
-                        <td>50</td>
-                        <td>Aquiles Castro insumos médicos</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-            </Col></Row>
-          }
     </Col>
       </Row >
 
