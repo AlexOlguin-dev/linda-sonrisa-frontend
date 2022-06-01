@@ -16,7 +16,7 @@ import Inventario from './Inventario';
 import Informes from './Informes';
 
 const Admin = () => {
-  const [route, setRoute] = useState(PROFESIONAL);
+  const [route, setRoute] = useState(CLIENT);
   return (
 
     <div>

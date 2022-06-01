@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Card, Row, Col, Form, Button, ButtonGroup, Modal } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
+import { FaTrash, FaEdit, FaPlus, FaFileMedical, FaClinicMedical } from 'react-icons/fa';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
 const CitasAgendadas = props => {
 
+  const DatePickerInput = forwardRef(({ value, onClick }, ref) => (
+    <Form.Control type="text" placeholder="Normal text" onClick={onClick} ref={ref} value={value}/>
+  ));
+
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [citas_agendadas, set_citas_agendadas] = useState([]);
+  const [showDiagnosticos, setShowDiagnosticos] = useState(false);
+  const [showTratamientos, setShowTratamientos] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
 
-  //LOADERS--------------------------------------------------------------------------------------------------------
+  //LOADERS---------------------------------FaPlus-----------------------------------------------------------------------
   useEffect(() => {
     list_citas_agendadas()
   },[])
@@ -34,6 +43,11 @@ const CitasAgendadas = props => {
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
+  const handleCloseDiagnosticos = () => setShowDiagnosticos(false);
+  const handleShowDiagnosticos = () => setShowDiagnosticos(true);
+  const handleCloseTratamientos = () => setShowTratamientos(false);
+  const handleShowTratamientos = () => setShowTratamientos(true);
+
   function render_citas_agendadas(){
     return citas_agendadas.map((item) => {
       return (
@@ -45,8 +59,12 @@ const CitasAgendadas = props => {
           <td>{item.hora}</td>
           <td>
           <ButtonGroup size="sm">
-            {/*<Button variant="danger"><FaTrash size={15} /></Button>
-            <Button variant="info"><FaEdit size={15} /></Button>*/}
+            <Button variant="warning" onClick={handleShowDiagnosticos}><FaPlus /> Nuevo Diagnostico</Button>
+          </ButtonGroup>
+          </td>
+          <td>
+          <ButtonGroup size="sm">
+            <Button variant="secondary" onClick={handleShowTratamientos}><FaPlus /> Agendar Tratamiento</Button>
           </ButtonGroup>
           </td>
         </tr>
@@ -57,7 +75,20 @@ const CitasAgendadas = props => {
   return(
     <>
       <Row>
-        <Col style={{ padding: '50px 50px 50px 50px' }}>
+        <Col style={{ padding: '50px 50px 10px 50px' }}>
+          <Form.Label htmlFor="inputPassword5">Paciente</Form.Label>
+          <Form.Control
+            type="text"
+            id="inputPassword5"
+            aria-describedby="passwordHelpBlock"
+          />
+          <Form.Text id="passwordHelpBlock" muted>
+            Escribe el nombre del paciente.
+          </Form.Text>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={{ padding: '50px 50px 10px 50px' }}>
           <Card>
             <Card.Body>
               <Card.Title>Citas Agendadas</Card.Title>
@@ -70,7 +101,8 @@ const CitasAgendadas = props => {
                       <th>Profesional</th>
                       <th>Fecha</th>
                       <th>Hora</th>
-                      <th>Opciones</th>
+                      <th>Diagnosticos</th>
+                      <th>Tratamientos</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -82,6 +114,70 @@ const CitasAgendadas = props => {
           </Card>
         </Col>
       </Row>
+
+      {/** MODAL DIAGNOSTICOS */}
+      <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={showDiagnosticos} onHide={handleCloseDiagnosticos}>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Diagnostico - "Nombre del usuario"
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Diagnostico:</Form.Label>
+              <Form.Control as="textarea" rows={6} />
+            </Form.Group>
+          </Form>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDiagnosticos} >Close</Button>
+          <Button variant="primary">
+            Guardar Diagnostico
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL DIAGNOSTICOS */}
+
+      {/** MODAL TRATAMIENTOS */}
+      <Modal show={showTratamientos} onHide={handleCloseTratamientos}>
+        <Modal.Header closeButton>
+          <Modal.Title>Agendar Tratamiento - "Nombre Paciente"</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          
+          <Form.Label>Selecciona un tratamiento</Form.Label>
+          <Form.Select aria-label="Default select example">
+            <option></option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </Form.Select>
+
+          <Form.Group className="mb-3">
+          <Form.Label className="fs-5 text">Fecha:</Form.Label>
+            <DatePicker
+              todayButton="Hoy"
+              dateFormat="dd/MM/yyyy" 
+              selected={startDate} 
+              onChange={(date) => setStartDate(date)}
+              customInput={<DatePickerInput />}
+            />
+          </Form.Group>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseTratamientos}>
+            Cancelar
+          </Button>
+          <Button variant="primary">
+            Agendar Tratamiento
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL TRATAMIENTOS */}
     </>
   )
 }

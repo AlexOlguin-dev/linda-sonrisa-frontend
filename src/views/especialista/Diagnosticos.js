@@ -10,6 +10,8 @@ const Diagnostico = props => {
 
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [pacientes, set_pacientes] = useState([]);
+  const [showDiagnosticos, setShowDiagnosticos] = useState(false);
+  const [showTratamientos, setShowTratamientos] = useState(false);
 
   //LOADERS--------------------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -34,6 +36,11 @@ const Diagnostico = props => {
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
+  const handleCloseDiagnosticos = () => setShowDiagnosticos(false);
+  const handleShowDiagnosticos = () => setShowDiagnosticos(true);
+  const handleCloseTratamientos = () => setShowTratamientos(false);
+  const handleShowTratamientos = () => setShowTratamientos(true);
+
   function render_pacientes(){
     return pacientes.map((item) => {
       return (
@@ -41,10 +48,10 @@ const Diagnostico = props => {
           <td>{item}</td>
           <td>{item}</td>
           <td>
-            <Button variant="warning"><FaFileMedical /></Button>
+            <Button variant="warning" onClick={handleShowDiagnosticos}><FaFileMedical /></Button>
           </td>
           <td>
-            <Button variant="secondary"><FaClinicMedical /></Button>
+            <Button variant="secondary" onClick={handleShowTratamientos}><FaClinicMedical /></Button>
           </td>
         </tr>
       )
@@ -90,6 +97,78 @@ const Diagnostico = props => {
           </Card>
         </Col>
       </Row>
+
+      {/** MODAL DIAGNOSTICOS */}
+      <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={showDiagnosticos} onHide={handleCloseDiagnosticos}>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Diagnosticos
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <div className="d-grid gap-2">
+            <Button variant="primary" size="lg">
+              <FaPlus /> Nuevo Diagnostico
+            </Button>
+          </div>
+
+          <Table responsive="sm">
+            <thead>
+              <tr>
+                <th>Fecha emision</th>
+                <th>Ver detalle</th>
+                <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </Table>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleCloseDiagnosticos} >Close</Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL DIAGNOSTICOS */}
+
+      {/** MODAL TRATAMIENTOS */}
+      <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={showTratamientos} onHide={handleCloseTratamientos}>
+        <Modal.Header closeButton>
+          <Modal.Title>Tratamientos agendados</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <div className="d-grid gap-2">
+            <Button variant="primary" size="lg">
+              <FaPlus /> Nuevo Tratamiento
+            </Button>
+          </div>
+
+          <Table responsive="sm">
+            <thead>
+              <tr>
+                <th>Fecha emision</th>
+                <th>Fecha Agendada</th>
+                <th>Tratamiento</th>
+                <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </Table>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseTratamientos}>
+            Cancelar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL TRATAMIENTOS */}
+
     </>
   )
 }
