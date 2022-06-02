@@ -257,6 +257,12 @@ const Dashboard = props => {
   return(
     <>
     <div className="dashboard-cliente">
+    
+    <Row>
+      <Col className='text-center bg-secondary text-white'>
+        <h1 class="display-4">Bienvenido {cookies.get('nombre_paciente')} {cookies.get('apellido_paciente')}</h1>
+      </Col>
+    </Row>
 
     <Row>
       <Col className='p-5'>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Button } from 'react-bootstrap';
+import { Navbar, Container, Button, Row, Col } from 'react-bootstrap';
 import UserStore from '../stores/UserStore';
 //LOGIN
 import LoginFormCliente from "../login/LoginCliente";
@@ -45,7 +45,9 @@ const NavBar = props => {
         <Navbar bg="primary">
           <Container>
             <Navbar.Brand>
-              <img src={require("../../assets/img/MainIcon.png")} width="100" className="d-inline-block align-top" alt="React Bootstrap logo"/>
+              <NavLink to="/" onClick={() => setMain('/')}>
+                <img src={require("../../assets/img/MainIcon.png")} width="100" className="d-inline-block align-top" alt="React Bootstrap logo"/>
+              </NavLink>
             </Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
@@ -58,7 +60,7 @@ const NavBar = props => {
                   <>
                     { main === '/login' ? (
                       <>
-                        <NavLink to="/" onClick={() => setMain('/')}><Button variant="primary">Página principal</Button>{' '}</NavLink>
+                        <NavLink to="/" onClick={() => setMain('/')}><Button variant="primary">Página principal</Button></NavLink>
                       </>
                     ):(
                       <>

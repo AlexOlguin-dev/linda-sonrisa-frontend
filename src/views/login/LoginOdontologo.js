@@ -61,7 +61,7 @@ class LoginFormOdontologo extends Component{
   render(){
     return (
       <div>
-        <Container>
+        <Container style={{ minHeight: '500px' }}>
 
           <Row className="justify-content-md-center" style={{ marginTop: '100px', marginBottom: '100px' }}>
             <Col xs="6"> 
