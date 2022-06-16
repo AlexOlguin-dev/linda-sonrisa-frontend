@@ -14,14 +14,19 @@ const Odontologos = props => {
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [odontologos, set_odontologos] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [rut, set_rut] = useState('');
-  const [rut_confirm, set_rut_confirm] = useState('');
   const [nombre_completo, set_nombre_completo] = useState('');
   const [password, set_password] = useState('');
   const [password_confirm, set_password_confirm] = useState('');
   const [estado_contrato, set_estado_contrato] = useState('ACTIVO');
+  const [id_especialidad, set_id_especialidad] = useState(1);
+  const [especialidades, set_especialidades] = useState([]);
+  const [rut_edit, set_rut_edit] = useState('');
+  const [nombre_completo_edit, set_nombre_completo_edit] = useState('');
+  const [startDateEdit, set_startDateEdit] = useState(new Date());
+  const [estado_contrato_edit, set_estado_contrato_edit] = useState('');
 
   //FORMATOS------------------------------------------------------------------------------------------------
   function dateFormat(d){
@@ -40,6 +45,7 @@ const Odontologos = props => {
   //LOADERS--------------------------------------------------------------------------------------------------------
   useEffect(() => {
     get_odontologos()
+    get_especialidades()
   },[])
 
   //LLAMADAS-------------------------------------------------------------------------------------------------------
@@ -99,6 +105,7 @@ const Odontologos = props => {
             }
           })
           .catch(error => console.log('error', error));
+        crear_especialidad_especialista()
       }
     }
   }
@@ -117,47 +124,104 @@ const Odontologos = props => {
         if (result === 'ok') {
           get_odontologos()
         }else{
-          if (result === 'DATOS') {
-            set_rut_confirm(rut)
-            handleShowConfirmDelete()
-          }else{
-            alert("Se produjo un error al eliminar el odontologo")
-          }
+          alert("Se produjo un error al eliminar el odontologo")
         }
       })
       .catch(error => console.log('error', error));
   }
 
-  function full_eliminar_odontologo(){
+  function get_especialidades(){
     var myHeaders = new Headers();
-    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Ind0d1grUGJRempTSFZiWkR3VE9YWGc9PSIsInZhbHVlIjoiNmE3Y3VYT3ZGc2VMN2t5Ujl3eVZHMEh5cmFrQlBOVVZtL0sydEUrYno2UlVUYkVwbzZRWjFpQ1YrTUY5RzNGS3h3eUxISUg2MU4yQ3pFemNEWlNRQ0d0Zkw2amtLV3VraDhLRVN2N1MwaW84NjhWRm9PNlBMMkJVYWt5TlYxb2oiLCJtYWMiOiI0NDIzMDBmYjFmMjY3MDI0YWQ1ZTJlNDRlNTE2YmYzYTNhY2YxMjE5MGZhMjU0YTNmMGY1NDQ0Y2ZmZTMyZmRlIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IjJtbkZ0TnVkRVBsbVpDUVpmMkZoUXc9PSIsInZhbHVlIjoiR2pJNEhiNW9DU0ZTTkg3TjJwRUdVcy84emlQODNVM29YR2NhOHVOODBQYXE0SWFSMUJWc0JuNHhFdEltczROVy8zancrelZCOWFhUHRqeEkxdEJuVlN1aExBN2s4UUEwRFNBYng1UFl0M1lxYiszTWlmVG8zMTAvU3JuK0tuWDAiLCJtYWMiOiIxNjJjNmRkMGUzN2FjMTRhNDFiMWM1NjlmOGY5MzdjOTg2ZDIxYmU2YjFlYzBhYzlkZDM5OTUxZDFkY2EwZGQ4IiwidGFnIjoiIn0%3D");
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Imc1WEFCMFcxUW41Y2p6S1NTY2NIMEE9PSIsInZhbHVlIjoiM3FpeC84TFkvaFIzSjZCbDc5VGRBa1JqdXV6NjNidFV2Nkh6K1dkYTNzb1dBaHlaRTE0eDhBV1JKSmg3TGExZnE1ZC9YbFdzc2JNWFAxQ0sxUFhGM3p5dzJGaEtWVEsyd3VuQTZBdWZnT0h6RFpqUFNYU1JoelQrOTNSQjlvaEQiLCJtYWMiOiJmMDg1OWU2NTZkZTRlOGJlYzA3ZmI0MGZmZTRkZjc4ZjkyYjY2NmVmNDE2OTQ1NjAzOGU2Y2FkZDU5YzFmZjZlIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6Ik41Mm1HVDBXVnpOM1QzdkN3RTdBQ2c9PSIsInZhbHVlIjoiQW4wMXBpZG8xTUtLbmZoMmNXZGN6bzJaQUpWOTl2RVBZOWFuOHI0aFk2M3VrK2IwM2JiOTBiQ2s3QjViMCttZG9tNWNyQjJ4NjFrQndHWG0vMlExOG94VWZrVGtETVlNeE5LZkxHVldkcC96cDM4UmpJajQ4cU85K1JHRkE1NHciLCJtYWMiOiJkN2NkNmY1MjVjYmYzZTNkYjlmNGU3YTg0ZmYxODdjZjFkNGJkMTYyNDMxNjA0Y2FjNjU0Y2NmOTI1NzY5ZTJlIiwidGFnIjoiIn0%3D");
     var requestOptions = {
       method: 'GET',
       headers: myHeaders,
       redirect: 'follow'
     };
-    fetch("http://127.0.0.1:8000/full_eliminar_especialista?rut="+rut_confirm, requestOptions)
+    fetch("http://127.0.0.1:8000/especialidades", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        set_especialidades(result)
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function crear_especialidad_especialista(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IjQ0eUhpdHMxL2dBcUpFY1Bvb0dZL1E9PSIsInZhbHVlIjoiUW9vSFJPY0RSZ0x5a1VhN3pjbVZyRnZNSWd6bGt6NDkyZ2VqZGxIUmpHelFjREtRMll5V1FheDVtaHlyRHpaMWg1NWJjL28xd3o1VkE2Y0FXSzFCVVpEeDJ2a2RSWXhQTkxjQi94Wll3ejVJVUEzNFRRcE5LNzh6TDBReU1LcEciLCJtYWMiOiJmYmFlYTg5ZDg3NzJkODNiOThhNTJiNjljNTA3NGFhODE0ZDg3YTRkZjNhZjAwODllNWFlMzgyMDRmMTJjNWQwIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlNOSkU4V0FreG9YKzJZdGJLeXZNZkE9PSIsInZhbHVlIjoiZUdBTDhlNnNTbjlyMnhYWFN3enptbk5ucEtiRmZyRmZoM21xR1dIanp4SVJEeFh3Z0plOWdKN013b3d2aE9pM2JxZ2RoWEV0RVN3T2xkcmpmYTBtT1cvOGMveHF4SkYydTFWc2NyOXRVWVYwY3YzWUlnZGJ0NkZLbmljeUg4Mm0iLCJtYWMiOiJlODNhMmI5NTNmYjNlNzQ4OTFlMmU1MWY3M2QwODc4OWY1Y2VjYjU3NzBjNDhkNmViOWI2OWEzMzZkY2RlNTEwIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/create_especialidad_especialista?rut="+rut+"&especialidad="+id_especialidad, requestOptions)
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
+
+  function get_single_especialidades(rut){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IlVXaml1MFJLa3N3b3gzUFhNZk1qWXc9PSIsInZhbHVlIjoiek8xZjY1cllFVlNpWXF1QUFtVUdVbDVHbzA4YnJvc1IxYVNEUk84NFhTNVVleGVuN0d2MTJkMWZHK0ZzeVRWdjlFWUo5aG11UmtkYUE0MmkrTThack81N21MZXJ2YVNnR3pQTUVlcHBpMGlRbVBaM3R2ajlBaXl4TnMvbXpQdFkiLCJtYWMiOiI3ZTkzYmYzYzRhZThlZTBmZDc5ZDI5ODc5MWM4MmE1NTQ2NzY3Zjc2NzczMTI3NWYwMzcyZTJjYzkxN2NiMDcxIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InZqK1NaNitOUEh0blJoeFdtME5LQ2c9PSIsInZhbHVlIjoiTU5XUmU2clYwVVlZT1phZ3BqUFM4ZzA0QzZNcC9MSFhLQVphVGhMUm1HSWxOd2c0S2ROc3F5WmxWdC93SEpUM1EvWklTbVJTRFdZNVovZDBCVFJnYmo2eWR0S2dmbnpGTUhCVm1qZHJjR3paQm9QQk9RU2QzakNYNEwvY1ZVdGsiLCJtYWMiOiI4OTU1NjQ0MTVhNmI2NTY0NTJmM2VkMjRlZjcyMTc0MDlhODA1MmEyMGM3MDFjY2NmZjBkNTAyYjM1NTQzNjFlIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/get_single_especialista?rut="+rut, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        set_rut_edit(result[0].rut)
+        set_nombre_completo_edit(result[0].nombre_completo)
+        set_startDateEdit(new Date(result[0].fecha_contratacion))
+        set_estado_contrato_edit(result[0].estado_contrato)
+        handleShowEdit()
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function edit_especialista(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IjlnNW9EMURpYjd3a2ZIVnEvdU03aWc9PSIsInZhbHVlIjoiS2w4TTRjUzBUSGZRNTZwSDR3bGY0bEdxc1JRSmEyQjZYYUtVRlc0Q0tlMnh0OVpPMDI1U3U4Z3J5cnA4THBuT2hOTGpaY0lna0ZRWk04RVl1T2dGdVFHbXoxcDR3eWpnRitFZ2ZzQnVtQ2Fid1FUeW9QdHd3UXVULzlqeUkxYjUiLCJtYWMiOiI3NTg2NzJlYzZhMjMxZDdkYTgxMmE5NjM2NDViMDUyOGFmN2VmZDExMDNhYTZkMTk3YWE2MWUwM2YwOGEwMTBlIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlQyem5INnNTUTdkRFVJQzdxVzNMaEE9PSIsInZhbHVlIjoiS3p4NTJ6T0NVVHFqOWttK0NCb2JkUk5hWmY1WTMyOU9zZWtyN1ZPRzZPMDRhd0VaeENmNjAzQTcyMlAzNUgxb05GeTBFdzh4UUoxMmF2d2R0L1JmcDQ4ejB5OGpCS01XWkJwZ2xzWHEvdVRrWUg2T0RRYzN6dE5HRzllZEkwQkEiLCJtYWMiOiJiYjhjOGM0MTQ3YmNlZGQ3M2I4NDk2MTMxYTcxNDFiMTYyZTUwNjhlZTI4NGU4NDYwMjk2YzBlNWU1NGM1ZWU0IiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/editar_especialista?rut="+rut_edit+"&nombre_completo="+nombre_completo_edit+"&fecha_contratacion="+dateFormat(startDateEdit)+"&estado_contrato="+estado_contrato_edit, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result === 'ok') {
-          alert("Se ha eliminado el odontologo y todos los datos relacionados")
           get_odontologos()
-          handleCloseConfirmDelete()
         }else{
-          alert("No se ha podido eliminar el odontologo ni ninguno de los datos relacionados")
+          alert('No se pudo guardar el odontologo')
         }
       })
       .catch(error => console.log('error', error));
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
-  const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
-  const handleShowConfirmDelete = () => setShowConfirmDelete(true);
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
 
   function select_estado_contrato(event){
     set_estado_contrato(event.target.value)
+  }
+
+  function select_especialdad(event){
+    set_id_especialidad(event.target.value)
+  }
+
+  function select_estado_contrato_edit(event){
+    set_estado_contrato_edit(event.target.value);
+  }
+
+  function render_especialidades(){
+    return especialidades.map((item) => {
+      return <option value={item.id}>{item.nombre}</option>
+    })
   }
 
   function render_odontologos(){
@@ -171,7 +235,7 @@ const Odontologos = props => {
           <td>
           <ButtonGroup size="sm">
             <Button variant="danger" onClick={() => eliminar_odontologo(item.rut)}><FaTrash size={15} /></Button>
-            <Button variant="info"><FaEdit size={20} /></Button>
+            <Button variant="info" onClick={() => get_single_especialidades(item.rut)}><FaEdit size={20} /></Button>
           </ButtonGroup>
           </td>
         </tr>
@@ -215,25 +279,6 @@ const Odontologos = props => {
           </Card>
         </Col>
       </Row>
-
-      {/** MODAL DELETE CONFIRM */}
-      <Modal show={showConfirmDelete} onHide={handleCloseConfirmDelete}>
-        <Modal.Body>
-          <p>
-            Se han detectado datos relacionados con esta cuenta, al eliminar la cuenta
-            se eliminaran todos los datos relacionados ¿Esta seguro de que desea eliminar esta cuenta?
-          </p>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseConfirmDelete}>
-              Cancelar
-            </Button>
-            <Button variant="primary" onClick={full_eliminar_odontologo}>
-              Si, elimina los datos
-            </Button>
-          </Modal.Footer>
-        </Modal.Body>
-      </Modal>
-      {/** MODAL DELETE CONFIRM */}
 
       {/** MODAL CREAR ODONTOLOGO */}
       <Modal show={showCreate} onHide={handleCloseCreate}>
@@ -290,10 +335,17 @@ const Odontologos = props => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="fs-5 text">Especialidad:</Form.Label>
+            <Form.Label className="fs-5 text">Estado contrato:</Form.Label>
             <Form.Select aria-label="Default select example" onChange={select_estado_contrato}>
               <option value='ACTIVO'>ACTIVO</option>
               <option value='TERMINADO'>TERMINADO</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label className="fs-5 text">Especialidad:</Form.Label>
+            <Form.Select aria-label="Default select example" onChange={select_especialdad}>
+              {render_especialidades()}
             </Form.Select>
           </Form.Group>
 
@@ -308,6 +360,60 @@ const Odontologos = props => {
         </Modal.Footer>
       </Modal>
       {/** MODAL CREAR ODONTOLOGO */}
+
+      {/** MODAL EDITAR ODONTOLOGO */}
+      <Modal show={showEdit} onHide={handleShowEdit}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Odontologo - {rut_edit}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form.Label htmlFor="username" className="fs-5 text">Nombre Completo:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="username" 
+            onChange={(e) => set_nombre_completo_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={nombre_completo_edit}  
+          />
+
+          <Form.Group className="mb-3">
+          <Form.Label className="fs-5 text">Fecha Contratacion:</Form.Label>
+            <DatePicker
+              todayButton="Hoy"
+              dateFormat="dd/MM/yyyy" 
+              selected={startDateEdit} 
+              onChange={(date) => set_startDateEdit(date)}
+              customInput={<DatePickerInput />}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label className="fs-5 text">Estado contrato:</Form.Label>
+            <Form.Select aria-label="Default select example" value={estado_contrato_edit} onChange={select_estado_contrato_edit}>
+              <option selected value='ACTIVO'>ACTIVO</option>
+              <option value='TERMINADO'>TERMINADO</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label className="fs-5 text">Especialidad:</Form.Label>
+            <Form.Select aria-label="Default select example" onChange={select_especialdad}>
+              {render_especialidades()}
+            </Form.Select>
+          </Form.Group>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEdit}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={edit_especialista} >
+            Editar Odontologo
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL EDITAR ODONTOLOGO */}
 
     </>
   )

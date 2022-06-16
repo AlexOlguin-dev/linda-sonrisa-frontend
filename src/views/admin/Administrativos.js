@@ -13,6 +13,7 @@ const Pacientes = props => {
 
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [show, setShow] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [administrativo, set_administrativos] = useState([]);
   const [rut, set_rut] = useState('');
@@ -21,6 +22,11 @@ const Pacientes = props => {
   const [nombre_completo, set_nombre_completo] = useState('');
   const [cargo, set_cargo] = useState('');
   const [estado_contrato, set_estado_contrato] = useState('ACTIVO');
+  const [rut_edit, set_rut_edit] = useState('');
+  const [nombre_completo_edit, set_nombre_completo_edit] = useState('');
+  const [cargo_edit, set_cargo_edit] = useState('');
+  const [startDateEdit, setStartDateEdit] = useState(new Date());
+  const [estado_contrato_edit, set_estado_contrato_edit] = useState('');
 
   //FORMATOS------------------------------------------------------------------------------------------------
   function dateFormat(d){
@@ -126,12 +132,59 @@ const Pacientes = props => {
       .catch(error => console.log('error', error));
   }
 
+  function get_single_administrativo(rut){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IkJHbUNkbXdSSVZINzJtSlZzajhramc9PSIsInZhbHVlIjoiSXE2ekE1QWNhWUNIelE4ajFBR3d3QTZxM21VRlIrbXI0NS9KaDBKejg2d0hLUTJ2cWZyQ0lxbEQwNUkzNTlyRHg1YW05cnU4NFVRUXozR3AzQno5T1BiM0syNGdEb1N0WXNpUEJ1QTQvQXQ0RExZVTRKV1JySWw0WkxMZSs4NEkiLCJtYWMiOiJkZDY3YzNjMzRkOGVmZTdjMWViOTc3ZTI1OGU0M2UyY2U0ZGYwZDdkMjk5YjEyZTVlNGYwNzdlOTQ1Y2RiZmI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImluaEpaSXozcjJwTHczQkduQzhVR0E9PSIsInZhbHVlIjoiVDNjRzloNUtFY3hGcGxHRVJTUW5tcklYTW9iRzdmamhNTS9ZQnU0R2xxRFRhWFcrMmJzZWEzZWhYUjh1ZkE3SlJleHNGV3BubTM2QVVMdkpXZTdoYkpZOEg3VTkvWSt5OXVZT2RNMThJVHZzUkoyaUxTbGRRMS9xcm50UnhFbVUiLCJtYWMiOiJlZTdkYzU5YTM3NTZmYTgwNzcyOGQ3MGU1NDBkNDNlNTkxMzQwZGIzMzY4NjU5NmM2ZDhhZjBhN2I2NTVmMTJjIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/get_single_administrativo?rut="+rut, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        set_rut_edit(result[0].rut)
+        set_nombre_completo_edit(result[0].nombre_completo)
+        set_cargo_edit(result[0].cargo)
+        setStartDateEdit(new Date(result[0].fecha_contratacion))
+        set_estado_contrato(result[0].estado_contrato)
+        handleShowEdit()
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function edit_administrativo(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IkQ4dE5tYkp2S3luZXRQZmttTTIvUkE9PSIsInZhbHVlIjoiMTJPdjFuWEp6QjF4WGlzVko4UU9Va25MZ09wNFVXRzlwMGI3MzZuUGtVQXg3cGswMXNZdm9SREtHVStCaTZhSEUzcUxoUFNsbGpIV215aDFUUWord1FOclAzcGt0OVNBaklXdFQrRkgyK1pBa25oTlVzeWtCc211MlJLMVVpMGUiLCJtYWMiOiI0OWE5MzNkNTA3ZjMyOTE0ODI3MmFmNDNmNGFlMTdkM2RjOWU2N2FkNjY1ZTg3YzFlMzM2YjY2ZmQ5NjE3MTY4IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImFLSkZjUGRBRzB4ZG5veXc2aGp0Q3c9PSIsInZhbHVlIjoiQkRQL21takpjOHh5OHliY0JhejZiRVFMUW5sM3NMRk9tWXl3NFB6Tk5oRFVKdm0yN3cvTE9tZjFRdUNMQXloc1ZIVW9nQjl1c1JPbnpsckEzcFBGRkR5elMrMmhJQnl0d1Z4SXF3cDNNSmxFWEU5Um1JRnVENEJNdHpUdjVFaWEiLCJtYWMiOiI0MzVkZWJjOGNlMjdhNWRiNmUwMGRkMzJmYTI4YTc4ZmMzNGE3NzdhZGM2NTAyMzcwYWQ3MDAxMTFmYjIxNTk2IiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/edit_administrativo?rut="+rut_edit+"&nombre_completo="+nombre_completo_edit+"&cargo="+cargo_edit+"&fecha_contratacion="+dateFormat(startDateEdit)+"&estado_contrato="+estado_contrato_edit, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result === 'ok') {
+          get_administrativo()
+        }else{
+          alert('No se puedo editar el administrativo')
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
 
   function select_estado_contrato(event){
     set_estado_contrato(event.target.value)
+  }
+
+  function select_estado_contrato_edit(event){
+    set_estado_contrato_edit(event.target.value)
   }
 
   function render_administrativos(){
@@ -146,7 +199,7 @@ const Pacientes = props => {
           <td>
           <ButtonGroup size="sm">
             <Button variant="danger" onClick={() => delete_administrativo(item.rut)}><FaTrash size={15} /></Button>
-            <Button variant="info"><FaEdit size={20} /></Button>
+            <Button variant="info" onClick={() => get_single_administrativo(item.rut)}><FaEdit size={20} /></Button>
           </ButtonGroup>
           </td>
         </tr>
@@ -274,6 +327,62 @@ const Pacientes = props => {
         </Modal.Footer>
       </Modal>
       {/** MODAL CREAR ODONTOLOGO */}
+
+      {/** MODAL EDITAR ODONTOLOGO */}
+      <Modal show={showEdit} onHide={handleCloseEdit}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Administrativo - {rut_edit}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form.Label htmlFor="username" className="fs-5 text">Nombre Completo:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="username" 
+            onChange={(e) => set_nombre_completo_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={nombre_completo_edit}  
+          />
+
+          <Form.Label htmlFor="username" className="fs-5 text">Cargo:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="username" 
+            onChange={(e) => set_cargo_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={cargo_edit}  
+          />
+
+          <Form.Group className="mb-3">
+          <Form.Label className="fs-5 text">Fecha Contratacion:</Form.Label>
+            <DatePicker
+              todayButton="Hoy"
+              dateFormat="dd/MM/yyyy" 
+              selected={startDateEdit} 
+              onChange={(date) => setStartDateEdit(date)}
+              customInput={<DatePickerInput />}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label className="fs-5 text">Especialidad:</Form.Label>
+            <Form.Select aria-label="Default select example" value={estado_contrato_edit} onChange={select_estado_contrato_edit}>
+              <option value='ACTIVO'>ACTIVO</option>
+              <option value='TERMINADO'>TERMINADO</option>
+            </Form.Select>
+          </Form.Group>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEdit}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={edit_administrativo}>
+            Editar Administrativo
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL EDITAR ODONTOLOGO */}
 
     </>
   )
