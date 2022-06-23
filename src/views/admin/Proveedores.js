@@ -8,8 +8,8 @@ const Proveedores = props => {
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [proveedores, set_proveedores] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [showAsignProduct, setShowAsignProduct] = useState(false);
+  const [showEditProveedor, setShowEditProveedor] = useState(false);
   const [rut, set_rut] = useState('');
   const [nombre, set_nombre] = useState('');
   const [telefono, set_telefono] = useState('');
@@ -18,7 +18,11 @@ const Proveedores = props => {
   const [selected_proveedor, set_selected_proveedor] = useState('');
   const [productos_asignados, set_productos_asignados] = useState([]);
   const [found_products, set_found_products] = useState([]);
-  const [proveedor_confirm, set_proveedor_confirm] = useState('');
+  const [rut_proveedor_edit, set_rut_proveedor_edit] = useState('');
+  const [nombre_proveedor_edit, set_nombre_proveedor_edit] = useState('');
+  const [telefono_edit, set_telefono_edit] = useState('');
+  const [mail_edit, set_mail_edit] = useState('');
+  const [direccion_edit, set_direccion_edit] = useState('');
 
   //LOADERS--------------------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -100,33 +104,6 @@ const Proveedores = props => {
         if (result === 'ok') {
           list_proveedores()
         }else{
-          if (result === 'DATOS') {
-            set_proveedor_confirm(rut)
-            handleShowConfirmDelete()
-          }else{
-            alert("No se pudo eliminar el proveedor")
-          }
-        }
-      })
-      .catch(error => console.log('error', error));
-  }
-
-  function full_delete_proveedores(){
-    var myHeaders = new Headers();
-    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Im5JejVQNmk1d3ZOak0zVFdMTjNPdFE9PSIsInZhbHVlIjoiK3liVkQwU25zVUlBa3FRcXROYnk1TnIxQngrZE1MUm1PejM4WUVrcEl1eEkwYXVnQVZZWVprRDVpZU02K2sxRU9XaFN5TFk0WlRMcUR5SEZKRlF6WnJVQ2oybWd0TEp4U2U5ZmQ0Nk0wRkw4S1hoQ25MSnl0QXhNK29VdHFOTWUiLCJtYWMiOiIzMjQ2NzAxM2FkYzgwMGI0MzY1MzhiNjgxNWM5YzUwZmJjMWM5NGM1NjcyNGQzY2VkZTY1ZTA1ZWZkODk2ZWYyIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6Ikg4c0RhU3VxSDZ3U0ZEdWM2SzZuYUE9PSIsInZhbHVlIjoiV3NpSmtxajF4dC96cis3ZVo5a1lvUHJpTC9Ebkp5dW53RUFNbStkamRhaFVaQkhuVUs5UVZYUlhPL2gvc1ZMVHByeUZiblpOdXpoeU1DYWJlR255dTFpYXNqbGY4Z1U5Q3o3VWFjcjJSZEtPd3FrQzZlRWNvWkJETlZvNms0K2wiLCJtYWMiOiIxYWI2ODg4MDU1MTYzNTg4YmFmYTkyYmVmMTQyODUxZTA0N2FhYTViZTEwYWMxODU3Y2ZlMWE1NTI0MzZlNTM5IiwidGFnIjoiIn0%3D");
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-    fetch("http://127.0.0.1:8000/full_eliminar_proveedor?rut="+proveedor_confirm, requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        if (result === 'ok') {
-          handleCloseConfirmDelete()
-          list_proveedores()
-          set_productos_asignados([])
-        }else{
           alert("No se pudo eliminar el proveedor")
         }
       })
@@ -205,13 +182,54 @@ const Proveedores = props => {
       .catch(error => console.log('error', error));
   }
 
+  function get_single_proveedor(rut_proveedor){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Ijlja3hYRDZqdTVXQytFL3VLeFlzQXc9PSIsInZhbHVlIjoicnR2MDdhMDUyRTdlZUJFNE91M1VQM1QvSnBmMXlySjV2ZlE4Z2x3TFlmeE4wNURNaWdVaURLV0l1RHAySVNWZm56QjZTOEcxMVpxbHdja2tQYjNKQW93V1pZQmppUnNNN1ZWR2hCdHNVTGJwZHJzVktsc21BQVhsT1RrYnVRTk8iLCJtYWMiOiIyNzM0NDJjZmYzMjM1YTRkZWEwMmU4MGM0OGQwNjNmOWU3MzI2OGRlM2U2OWEyNDMwNGE0MzQ0N2UxODlhN2FiIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImMrdUZsRmtsMVdlbXJSS1craWJPNWc9PSIsInZhbHVlIjoia0ZpaXZ6R3JxcFJuMnBMQS9pVzhMbFBEaXR0dlRiL1I2NnJNWDNWNFBCbEZQSXp1VTlKNnppU1RUY1pwd3Z2bXNzaVBaMVZXeG04OHRJdnB5T3NUY2xLaUpWNmlMTVQvSFY0OEVqSjhUL1kvMDNvYnNiY1JXa3JSdGwvblBqOVciLCJtYWMiOiIxOWE4N2JmMTdjYWQ1YWY1MjEwNDdiNGE3YzY3ZTdkMjc4YTAyMTc5ZjM2MzAwMzE3N2Q0ODQ4NDFhYTRjM2QwIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/get_single_proveedor?rut="+rut_proveedor, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        set_rut_proveedor_edit(result[0].rut)
+        set_nombre_proveedor_edit(result[0].nombre)
+        set_telefono_edit(result[0].telefono)
+        set_mail_edit(result[0].mail)
+        set_direccion_edit(result[0].direccion)
+        handleShowEditProveedor()
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function edit_proveedor(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6InIwYk8wQ1BocGRwQStkajRhQ0d3NHc9PSIsInZhbHVlIjoiLytOZU1RZHRTbytYTDk3eTByWXRjR0NHOW8rU1Fham5YeXpFMThlNFQ3aFR4M3dscUsxeFNudWlTSXdHR3Q4Q2xSNndBOC93UGxKWXFVcDNWdENoYTREQ1JzalhjelZCWTJlb2dQOVkrZ3BOamE1aU41Vi9TMlI3UC9iT2YwVnIiLCJtYWMiOiI0YzIzN2IxMDNiMWRlYjE2ZDk1ZWNlY2Q0NjQ4ZTgxNjdhMmQ3ZDEzMmVhZTY1NzcyNjljODUwZjIzNDdkMmRmIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InI5LzhoYXpXd1Jjd3RxV1FwcVUrZFE9PSIsInZhbHVlIjoiUGFVTmFRb1BPcVNSS3hzaTJkeXM1YWprZXEydGJiY0NGaTFDZjh3TVZHb1FWQlNXT2d5dk9XUDNQdVRWOXhMYVZJWVJ2dUE5TExzZWZqaW1hR0hWOHdxQlRod2I3N0IxaThWa1NBSndSZTFNa0xtMEFQOExSNENLb1U5V1YwUUYiLCJtYWMiOiIwZGMzYThjNDAzMzllZGU0OTQ3ZTk4MTNhZjg2MmE4ZTU3MmUwMTc2OTNlZjRlOTllYWVmZDc2YTI4MTZhOWZkIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/edit_proveedor?rut="+rut_proveedor_edit+"&nombre="+nombre_proveedor_edit+"&telefono="+telefono_edit+"&direccion="+direccion_edit+"&mail="+mail_edit, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result === 'ok') {
+          list_proveedores()
+        }else{
+          alert("No se pudo editar el proveedor")
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
-  const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
-  const handleShowConfirmDelete = () => setShowConfirmDelete(true);
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
   const handleCloseAsignProduct = () => setShowAsignProduct(false);
   const handleShowAsignProduct = () => setShowAsignProduct(true);
+  const handleShowEditProveedor = () => setShowEditProveedor(true);
+  const handleCloseEditProveedor = () => setShowEditProveedor(false);
 
   function ender_select_proveedor(){
     return proveedores.map((item) => {
@@ -231,7 +249,7 @@ const Proveedores = props => {
           <td>
           <ButtonGroup size="sm">
             <Button variant="danger" onClick={() => delete_proveedores(item.rut)}><FaTrash size={15} /></Button>
-            <Button variant="info"><FaEdit size={15} /></Button>
+            <Button variant="info" onClick={() => get_single_proveedor(item.rut)}><FaEdit size={15} /></Button>
           </ButtonGroup>
           </td>
         </tr>
@@ -367,26 +385,6 @@ const Proveedores = props => {
         </Col>
       </Row>
 
-      {/** MODAL DELETE CONFIRM */}
-      <Modal show={showConfirmDelete} onHide={handleCloseConfirmDelete}>
-        <Modal.Body>
-          <p>
-            Se han detectado productos asignados a este proveedor, al eliminar al proveedor los
-            productos quedaran no asignados a ningun proveedor ¿Esta seguro que desea
-            eliminar al proveedor?
-          </p>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseConfirmDelete}>
-              Cancelar
-            </Button>
-            <Button variant="primary" onClick={full_delete_proveedores}>
-              Si, elimina al proveedor
-            </Button>
-          </Modal.Footer>
-        </Modal.Body>
-      </Modal>
-      {/** MODAL DELETE CONFIRM */}
-
       {/** MODAL ASIGNAS PRODUCTOS */}
       <Modal show={showAsignProduct} onHide={handleShowAsignProduct}>
         <Modal.Header closeButton>
@@ -465,7 +463,7 @@ const Proveedores = props => {
 
           <Form.Label htmlFor="username" className="fs-5 text">Mail:</Form.Label>
           <Form.Control 
-            type="text" 
+            type="mail" 
             id="mail" 
             onChange={(e) => set_mail(e.target.value)} 
             aria-describedby="passwordHelpBlock" 
@@ -492,6 +490,61 @@ const Proveedores = props => {
         </Modal.Footer>
       </Modal>
       {/** MODAL CREAR PROVEEDOR */}
+
+      {/** MODAL EDITAR PROVEEDOR */}
+      <Modal show={showEditProveedor} onHide={handleCloseEditProveedor}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Proveedor - {rut_proveedor_edit}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form.Label htmlFor="username" className="fs-5 text">Nombre:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="nombre" 
+            onChange={(e) => set_nombre_proveedor_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={nombre_proveedor_edit}  
+          />
+
+          <Form.Label htmlFor="username" className="fs-5 text">Telefono:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="telefono" 
+            onChange={(e) => set_telefono_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={telefono_edit}  
+          />
+
+          <Form.Label htmlFor="username" className="fs-5 text">Mail:</Form.Label>
+          <Form.Control 
+            type="mail" 
+            id="mail" 
+            onChange={(e) => set_mail_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={mail_edit}  
+          />
+
+          <Form.Label htmlFor="username" className="fs-5 text">Direccion:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="direccion" 
+            onChange={(e) => set_direccion_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={direccion_edit}  
+          />
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEditProveedor}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={edit_proveedor}>
+            Editar Proveedor
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL EDITAR PROVEEDOR */}
 
     </>
   )

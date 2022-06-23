@@ -8,10 +8,14 @@ const Productos = props => {
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [producto, set_producto] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [nombre, set_nombre] = useState('');
   const [stock, set_stock] = useState('');
   const [costo, set_costo] = useState('');
-  const [rut_proveedor, set_rut_proveedor] = useState('');
+  const [id_edit, set_id_edit] = useState('');
+  const [nombre_edit, set_nombre_edit] = useState('');
+  const [stock_edit, set_stock_edit] = useState('');
+  const [costo_edit, set_costo_edit] = useState('');
 
   //LOADERS--------------------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -91,9 +95,47 @@ const Productos = props => {
       .catch(error => console.log('error', error));
   }
 
+  function get_single_productos(id){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Ink4K3JYNmFiOHR2NkwwNWtEZG9ha3c9PSIsInZhbHVlIjoiMTlWL2VKZ0xDci9WT0NCTWJtZDd1azFRYXJtdG1OOVFTYWJQMWpxNVR5SjNGNk0wUEV4ajJDMXNtVEM4RmdJMVY5N2ltcHQ3UUFSTjMza0ozTFh0Y01mMXJ3UmJ2WWNyRlh0SnVVbE5rK015dWduL3lMeG1Ta3dzTzRUNWlpZ0kiLCJtYWMiOiI0NTgwOWU1NzllMTI5NTIwYThkNjEyZDdmOTc5OTA4ZmViNzgzMmMxMzQ0NTZlZDVmYzNkMTFlNmVhYzdkOTYzIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6Inp1QTlTNDFub21Hb3c5UmZDNjVSV1E9PSIsInZhbHVlIjoiUFM1MVRFaEFkQ1o3VVpNNEtiWGpkSmFnN29WVzJDTW1xS2crZ1NVenhoaU80TEVEWXlkOFpSSmx6dXlrOFV2ZUxOK3BXVHhQam9uWVQxQlZWU0x5OUdZejZhSFpKMEl5NFNIamxvMTZ5Vm5MM2hTQlM1UC8vWVBlYVdIRmg3M3IiLCJtYWMiOiJmY2NjN2MzMTA5MTllMDczNjc0ZjcyOGFmZDc5OTUzM2NmZTA3OTViNTlmYzUxYTc3MjY5YzJhODc3MThjMDUzIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/get_single_producto?id="+id, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        set_id_edit(result[0].id)
+        set_nombre_edit(result[0].nombre)
+        set_stock_edit(result[0].stock)
+        set_costo_edit(result[0].costo)
+        handleShowEdit()
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function edit_productos(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Ik9JYTdrRGtrckNiM1lDRmJWSUFId1E9PSIsInZhbHVlIjoidi9oQWpocTVhWDFpSFhZU3dTODNENVp6WC8wc0Z6ZEtsN1hjaTZPQkt0ODJqUGZpV0pQZkgyWmR5N0pMcXJ1c2pZaHo1d01JbE5TdXJNY2Nld01tb0hqc3Nnd0lzV2JSejVXa1Rnbmd3LzI4Y2Q5MW9NSjJvMnJIL1hneTdVUjkiLCJtYWMiOiI2YTE0MTY5YzVkOTM2ZWJkNzkwOTJiYjRiMDBmYmU5ZmM5Zjk3MjFhMDY4ZmU4YjgxZjNjZjc3ZGJiNTAxYzFlIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InNTQU92WkFmcVlVUWswQlVZMEF5Nmc9PSIsInZhbHVlIjoiS2FuQVdpWEJtZTlqcUt4TVJEQmI2TVhWajRhZldsa3g4ZWhkMklRUnIyOXlsOWlyeXB4Vm9qbFMwcmxKQ251SFpYb1BpZk5Idzl3WEtJUW1QcHNNWjhObHJiOU9QM1poTG9aNng2SDdydEYrLzJVbU5zeUJtTys3MWVKOTk5SnIiLCJtYWMiOiIxMmZkNWY3M2RlY2RkZjFjMDZiMzIwOWE0MGY2Mjc3ZjJjMTdkZTM2MWI1MWY2YmVlYTg0Y2M1YzBjZjgyODkxIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/edit_producto?id="+id_edit+"&nombre="+nombre_edit+"&stock="+stock_edit+"&costo="+costo_edit, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        list_productos()
+      })
+      .catch(error => console.log('error', error));
+  }
+
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
 
   function render_productos(){
     return producto.map((item) => {
@@ -111,7 +153,7 @@ const Productos = props => {
           <td>
           <ButtonGroup size="sm">
             <Button variant="danger" onClick={() => delete_productos(item.id)}><FaTrash size={15} /></Button>
-            <Button variant="info"><FaEdit size={20} /></Button>
+            <Button variant="info" onClick={() => get_single_productos(item.id)}><FaEdit size={20} /></Button>
           </ButtonGroup>
           </td>
         </tr>
@@ -202,6 +244,52 @@ const Productos = props => {
         </Modal.Footer>
       </Modal>
       {/** MODAL CREAR PRODUCTO */}
+
+      {/** MODAL EDITAR PRODUCTO */}
+      <Modal show={showEdit} onHide={handleCloseEdit}>
+        <Modal.Header closeButton>
+          <Modal.Title>Nuevo Producto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form.Label htmlFor="username" className="fs-5 text">Nombre:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="nombre" 
+            onChange={(e) => set_nombre_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={nombre_edit}  
+          />
+
+          <Form.Label htmlFor="username" className="fs-5 text">Stock:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="stock" 
+            onChange={(e) => set_stock_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={stock_edit}  
+          />
+
+          <Form.Label htmlFor="username" className="fs-5 text">Precio:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="precio" 
+            onChange={(e) => set_costo_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={costo_edit}  
+          />
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEdit}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={edit_productos}>
+            Crear Producto
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL EDITAR PRODUCTO */}
 
     </>
   )

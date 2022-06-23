@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Table, Card, Row, Col, Form, Button, Modal, ButtonGroup } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
+import { Card, Row, Col, Form, Button, Modal, ButtonGroup } from 'react-bootstrap';
+import { FaPlus } from 'react-icons/fa';
 
 const Tratamientos = props => {
 
   //VARIABLES------------------------------------------------------------------------------------------------------
   const [tratamientos, set_tratamientos] = useState([]);
   const [show, setShow] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const [nombre, set_nombre] = useState('');
   const [precio, set_precio] = useState('');
   const [descripcion, set_descripcion] = useState('');
+  const [id_edit, set_id_edit] = useState('');
+  const [nombre_edit, set_nombre_edit] = useState('');
+  const [precio_edit, set_precio_edit] = useState('');
+  const [descripcion_edit, set_descripcion_edit] = useState('');
 
   //LOADERS--------------------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -90,15 +95,65 @@ const Tratamientos = props => {
       .catch(error => console.log('error', error));
   }
 
+  function get_single_tratamiento(id){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IndtQlRzZG05cHM3aHBMSTRUUmltYUE9PSIsInZhbHVlIjoicENweDlMSGo5VjJMTGV1eXl5T2NNaDc2ZWRZZzZSUG4zNTFsTTlCRVgxVW5ncU40SmVwekxpY2lyOGRkSXIva01aNHA3RDNibmlPRWFYeC94QlJad2dmSjlPSVlFUWlRcWo0SHl3Yk5ndFRGUzZNbmFLVmpGNUJQdklyblplZ20iLCJtYWMiOiJkYjJkZDkyNDZjM2E4ZmViNmVlNzg3MTNiN2IxOTViNGNmZThjNGQ5NDAwZWMzYmM0ODBjZjljNTQ5MDE2MDJjIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlBJN0tHSmllNHIzODhTaFN3RXlOZWc9PSIsInZhbHVlIjoiblcyalEvS3h0Nm1KQ1VsZkhxRTNwZE5zWHVRS2ZQa3gwT1Jqd3JibUM0U2JIUXBSRy9lUXNsSEUwOGdWZlZ0Z2xmVVQ1WStFNS9NS09vRWVhaXpXRFFSZ1M3dzVZWC9PMFFlcEpyT0FCTG9UUmZETHJuNGZEYUlDT2ZQTWQrN0kiLCJtYWMiOiIyM2YwNzJlZDBlOTQxNGVlNjRkZGM2ODM5YjQxOTdmMGZkYzQ1NTNlYjM1MjY1MDUwMDg1MWRmZmM5MDJkMDhjIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/get_single_tratamiento?id="+id, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        set_id_edit(id)
+        set_nombre_edit(result[0].nombre)
+        set_precio_edit(result[0].precio)
+        set_descripcion_edit(result[0].descripcion)
+        handleShowEdit()
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function edit_tratamiento(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Im9vMjFHKzFsaGxjM3ZsVXRZZ2xKSXc9PSIsInZhbHVlIjoiby93dWRINy9McTg3dmZObnZXNXlGOHIzSzRyUzJYS3Yxbk4rUWF1K1VWbzdnNHI4MG9XSkxLQlZ3bmdRMVlZZmp6MDhVdFZncjcwVXlhdks0WTJrSHkvL0hFQ093WGZBdTFubUdFd3duM1JuMGJmVFk3ZHEvM3Y4YUdvWFBKMXgiLCJtYWMiOiI5MTk2OWFlOWMwZmE4ZGE5Nzc4YjI1NDY2ODQzMTE3ZGJlNDk2YmVkZTViNWYwZTIzZTE0YzMwNTM3NGJiYmM5IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlRCZkJJdElqSkpRZUhweEpLWlgwelE9PSIsInZhbHVlIjoiQzR3ZUkrOGhCN2xFUUdma3M1UUw1VVNudGc1OFd1UDY3L09hVEpvR1VXMjlHTk5jbFFZZTFDeHdyODdYMkYrOVYxajN2MXdRbURkaldnZ0dLT1VYRGM2VWlzNysva1YzVmx5bXNWdlpmbm9HczRPWnRKSVF5ZytSaWtjS1ZUY1IiLCJtYWMiOiJkNTE0MDZjOGY5Yjc5MjFkYmI3M2Q0YTk3NWI4NDBhOGMyYWEyZjdiZWY3MGNjZWQ0Y2MwNWZiNzk5YjM0MjQ2IiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/edit_tratamiento?id="+id_edit+"&nombre="+nombre_edit+"&precio="+precio_edit+"&descripcion="+descripcion_edit, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        get_tratamientos()
+      })
+      .catch(error => console.log('error', error));
+  }
+
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
+
+  function handleDescription(e){
+    if (e.target.value.length <= 200) {
+      set_descripcion(e.target.value)
+    }
+  }
+
+  function handleDescriptionEdit(e){
+    if (e.target.value.length <= 200) {
+      set_descripcion_edit(e.target.value)
+    }
+  }
 
   function render_tratamientos(){
     return tratamientos.map((item) => {
       return (
         <Col className='p-2' xs={3}>
-          <Card style={{ minHeight: '400px' }}>
+          <Card style={{ minHeight: '530px' }}>
             <Card.Img variant="top" src={require("../Images/extraccion.jpg")} />
             <Card.Body>
               <Card.Title>{item.nombre}</Card.Title>
@@ -109,8 +164,8 @@ const Tratamientos = props => {
             </Card.Body>
             <Card.Footer className="text-muted text-center">
               <ButtonGroup aria-label="Basic example">
-                <Button variant="danger" onClick={() => {delete_tratamiento(item.id)}}>Eliminar</Button>
-                <Button variant="info">Editar</Button>
+                <Button variant="danger" onClick={() => delete_tratamiento(item.id)}>Eliminar</Button>
+                <Button variant="info" onClick={() => get_single_tratamiento(item.id)}>Editar</Button>
               </ButtonGroup>
             </Card.Footer>
           </Card>
@@ -134,7 +189,7 @@ const Tratamientos = props => {
         {render_tratamientos()}
       </Row>
 
-      {/** MODAL CREAR ODONTOLOGO */}
+      {/** MODAL CREAR SERVICIO */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Nuevo Servicio</Modal.Title>
@@ -161,7 +216,7 @@ const Tratamientos = props => {
 
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label className="fs-5 text">Descripcion</Form.Label>
-            <Form.Control as="textarea" rows={3} onChange={(e) => set_descripcion(e.target.value)} value={descripcion} />
+            <Form.Control as="textarea" rows={3} onChange={(e) => handleDescription(e)} value={descripcion} />
           </Form.Group>
 
         </Modal.Body>
@@ -174,50 +229,49 @@ const Tratamientos = props => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/** MODAL CREAR ODONTOLOGO */}
+      {/** MODAL CREAR SERVICIO */}
 
-              {/*<Row><Col xs="3">
-                <Card style={{ width: '18rem', marginLeft: "10px", marginTop: "20px" }}>
-                  <Card.Img variant="top" src={require("../Images/extraccion.jpg")} />
-                  <Card.Body>
-                    <Card.Title>Extracción de pieza dental</Card.Title>
-                    <Card.Text>
-                      Este es uno de los tratamientos dentales más utilizados, ya que a medida que va pasando el tiempo,
-                      muchas veces se necesita extraer algunas piezas bucales, ya sea por infección o porque genera molestia o malestar.
+      {/** MODAL EDITAR SERVICIO */}
+      <Modal show={showEdit} onHide={handleCloseEdit}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Servicio</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
 
-                      Lo que suele llevar a cabo este proceso de extracción suele ser dolores intensos en los terceros molares,
-                      inflamación de encías, malocusión, surgimiento de quistes o infecciones bucales.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-                <Col xs="3">
-                  <Card style={{ width: '18rem', marginLeft: "10px", marginTop: "20px" }}>
-                    <Card.Img variant="top" src={require("../Images/blanqueamiento.jpg")} />
-                    <Card.Body>
-                      <Card.Title>Blanqueamiento Dental</Card.Title>
-                      <Card.Text>
-                        Este es otro procedimiento para conseguir el blanco natural de tus dientes. Para ello utilizamos
-                        una férula a medida que se ajustará a la  dentadura del paciente y aplicamos el agente blanqueador
-                        (gel de peróxido de carbamida o de hidrógeno) a la dentadura.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col >
-                  <Card style={{ width: '18rem', marginLeft: "10px", marginTop: "20px" }}>
-                    <Card.Img variant="top" src={require("../Images/implante.jpg")} />
-                    <Card.Body>
-                      <Card.Title>Implante dental</Card.Title>
-                      <Card.Text>
-                        Se acude a este tipo de tratamiento dental cuando necesitamos sustituir piezas bucales a causa de infecciones o caída de las mismas.
-                        Los implantes dentales se hacen con el fin de que sean a largo plazo, de tal forma que se intenta no crear
-                        ningún malestar al paciente después de su colocación.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-  </Row>*/}
+          <Form.Label htmlFor="username" className="fs-5 text">Nombre:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="username" 
+            onChange={(e) => set_nombre_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={nombre_edit}  
+          />
+
+          <Form.Label htmlFor="username" className="fs-5 text">Precio:</Form.Label>
+          <Form.Control 
+            type="text" 
+            id="username" 
+            onChange={(e) => set_precio_edit(e.target.value)} 
+            aria-describedby="passwordHelpBlock" 
+            value={precio_edit}  
+          />
+
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Label className="fs-5 text">Descripcion</Form.Label>
+            <Form.Control as="textarea" rows={3} onChange={(e) => handleDescriptionEdit(e)} value={descripcion_edit}/>
+          </Form.Group>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEdit}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={edit_tratamiento}>
+            Editar Servicio
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/** MODAL EDITAR SERVICIO */}
     </>
   )
 }

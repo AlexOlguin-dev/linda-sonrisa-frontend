@@ -27,6 +27,8 @@ const Odontologos = props => {
   const [nombre_completo_edit, set_nombre_completo_edit] = useState('');
   const [startDateEdit, set_startDateEdit] = useState(new Date());
   const [estado_contrato_edit, set_estado_contrato_edit] = useState('');
+  const [especialidades_especialista, set_especialidades_especialista] = useState([]);
+  const [id_especialidad_edit, set_id_especialidad_edit] = useState(1);
 
   //FORMATOS------------------------------------------------------------------------------------------------
   function dateFormat(d){
@@ -175,6 +177,7 @@ const Odontologos = props => {
         set_nombre_completo_edit(result[0].nombre_completo)
         set_startDateEdit(new Date(result[0].fecha_contratacion))
         set_estado_contrato_edit(result[0].estado_contrato)
+        get_especialidades_especialista(result[0].rut)
         handleShowEdit()
       })
       .catch(error => console.log('error', error));
@@ -200,6 +203,62 @@ const Odontologos = props => {
       .catch(error => console.log('error', error));
   }
 
+  function get_especialidades_especialista(rut){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IkJJaVp3OGtTRjV5ck9kYkh2UllKZnc9PSIsInZhbHVlIjoibEZaeUNtWUQvMnpHV2d3V2hzMllZZjVUUjNQLzdsLzVxVVplTmNPcjU0OUFXanNiY2xtYWM0QXBaU3JqdjlxVWF4ajlkaXYvVHRTMU1UOUw4UFo5Q00rdDRmWS9rQ1owR2ZKMEZpbWppN2VYYjBMZ3ZCMjl1TElROUVQN05STzQiLCJtYWMiOiJjMjEzMmNhNTM3ZTgyNmEwMmZjNDUwZmFiOWVlZTdiNmQ3MjU1MjdhYjdiNDI2MTVlMzhhZWUzMjU4MzYwNTYyIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InN5QUdYdWtlaTM0RXQ2NjY2NTh0TEE9PSIsInZhbHVlIjoiQ3lqT2kvTUhDSE81OHBITHNkL2F5Q1pkRXk1SE83ZTRXSXVOWGpkcFE1cFIxQ3pWOUdwaXZtVmw5UTQ1NCt2VXpZWklCUlYvMHJUVXNIb3Z3MWQzeTdLaGU1bmZaTGQrRnFYNjFiNURFRE02YllWdm1pY3NNZXRMQ1JGMlE4OXkiLCJtYWMiOiIyOWM3MWNlYzY0YTI0NmMyMGNlNzE3YjI0ODM0OTQyNjg5NGRhZmFlMjMzMmU5ZmU3OWU0YjE4MWUxY2VlYWNiIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/get_especialidades_especialista?rut="+rut, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        set_especialidades_especialista(result)
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function crear_especialidad_especialista_edit(){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6IjQ0eUhpdHMxL2dBcUpFY1Bvb0dZL1E9PSIsInZhbHVlIjoiUW9vSFJPY0RSZ0x5a1VhN3pjbVZyRnZNSWd6bGt6NDkyZ2VqZGxIUmpHelFjREtRMll5V1FheDVtaHlyRHpaMWg1NWJjL28xd3o1VkE2Y0FXSzFCVVpEeDJ2a2RSWXhQTkxjQi94Wll3ejVJVUEzNFRRcE5LNzh6TDBReU1LcEciLCJtYWMiOiJmYmFlYTg5ZDg3NzJkODNiOThhNTJiNjljNTA3NGFhODE0ZDg3YTRkZjNhZjAwODllNWFlMzgyMDRmMTJjNWQwIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlNOSkU4V0FreG9YKzJZdGJLeXZNZkE9PSIsInZhbHVlIjoiZUdBTDhlNnNTbjlyMnhYWFN3enptbk5ucEtiRmZyRmZoM21xR1dIanp4SVJEeFh3Z0plOWdKN013b3d2aE9pM2JxZ2RoWEV0RVN3T2xkcmpmYTBtT1cvOGMveHF4SkYydTFWc2NyOXRVWVYwY3YzWUlnZGJ0NkZLbmljeUg4Mm0iLCJtYWMiOiJlODNhMmI5NTNmYjNlNzQ4OTFlMmU1MWY3M2QwODc4OWY1Y2VjYjU3NzBjNDhkNmViOWI2OWEzMzZkY2RlNTEwIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/create_especialidad_especialista?rut="+rut_edit+"&especialidad="+id_especialidad_edit, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result === 'ok') {
+          get_especialidades_especialista(rut_edit)
+        }else{
+          alert('No se pudo guardar el odontologo')
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function delete_especialidad_especialista(id_especialidad){
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6Ino3dHBYUW91dUpPNDVWOTRQeWdDZ2c9PSIsInZhbHVlIjoicDNPczI4N2o2T3lteGZmZTdKUjA0emhCN2g1MDBWeDRSRzdtUHVaVGhyWXZTWEhIZ2FkeWtKOXJudkZDUytOWmJYYW9acUM0Yi9oaFFCRUw4cXNBOXN4VlJPalNKTnhZcThMa0hneTA1OXBldllBTkdoSFk1d2xuOHhBZnhFS0siLCJtYWMiOiI1ZWM2YWIyOGYwNzQ5OTcxOTIzOGM2NWM2YTNlNGFjMDcwMjVkNzUwZjBlN2U4ZGJkMGFiNmQ4OThkYjgyNDRmIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6Im5CUllvT0htVWo0WTFiNTFuTnZSYXc9PSIsInZhbHVlIjoiSmxNVVl3Q052K1FHTXhRbXpWWFlQdllSRkR3aUdMODNuMFJmQStEQkNUeVYrSGNxWWZQTXEwUUcza0RGbVJkS1lVeWp1RkpLeDFyYVJ2QWNTd3A0MEh3UFhhTko4bG1IUnE3UGY2M1Z0dnd1akw1RmpBeSt6UldnN0Z3Mm5vN0giLCJtYWMiOiIxYWRmZjBhMTBiODJjOTI0YWI5MTlmMTgxMDkyNmM0OGU2ZmNiNGRlYjQ1OTEzYThiZDFjMjFjNzA3ZjY4YjdkIiwidGFnIjoiIn0%3D");
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    fetch("http://127.0.0.1:8000/delete_especialidad_especialista?rut="+rut_edit+"&especialidad="+id_especialidad, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result === 'ok') {
+          get_especialidades_especialista(rut_edit)
+        }else{
+          alert('No se pudo guardar el odontologo')
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
@@ -212,6 +271,10 @@ const Odontologos = props => {
 
   function select_especialdad(event){
     set_id_especialidad(event.target.value)
+  }
+
+  function select_especialidad_edit(event){
+    set_id_especialidad_edit(event.target.value)
   }
 
   function select_estado_contrato_edit(event){
@@ -238,6 +301,17 @@ const Odontologos = props => {
             <Button variant="info" onClick={() => get_single_especialidades(item.rut)}><FaEdit size={20} /></Button>
           </ButtonGroup>
           </td>
+        </tr>
+      )
+    })
+  }
+
+  function render_especialidades_especialista(){
+    return especialidades_especialista.map((item) => {
+      return(
+        <tr>
+          <td>{item.nombre}</td>
+          <td><Button variant="danger" onClick={() => delete_especialidad_especialista(item.id)}><FaTrash size={15} /></Button></td>
         </tr>
       )
     })
@@ -398,10 +472,28 @@ const Odontologos = props => {
 
           <Form.Group className="mb-3">
             <Form.Label className="fs-5 text">Especialidad:</Form.Label>
-            <Form.Select aria-label="Default select example" onChange={select_especialdad}>
+            <Form.Select aria-label="Default select example" onChange={select_especialidad_edit}>
               {render_especialidades()}
             </Form.Select>
           </Form.Group>
+
+          <div className="d-grid gap-2">
+            <Button variant="primary" size="lg" onClick={() => crear_especialidad_especialista_edit()}>
+              Añadir especialidad
+            </Button>
+          </div>
+
+          <Table responsive="sm">
+            <thead>
+              <tr>
+                <th>Especialidades</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {render_especialidades_especialista()}
+            </tbody>
+            </Table>
 
         </Modal.Body>
         <Modal.Footer>

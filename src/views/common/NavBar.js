@@ -91,7 +91,7 @@ const NavBar = props => {
 
         <Footer />
 
-        </BrowserRouter>
+      </BrowserRouter>
     </>
   )
 }
