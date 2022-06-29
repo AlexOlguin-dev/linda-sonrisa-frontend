@@ -37,7 +37,7 @@ const Main = props => {
     return tratamientos.map((item) => {
       return(
         <Card className='m-5'>
-          <Card.Img variant="top" src={require("../../assets/img/carousel/pexels-pavel-danilyuk-6812456.jpg")} />
+          <Card.Img variant="top" src={require("../../assets/img/tratamientos/"+item.imagen)} />
           <Card.Body>
             <Card.Title>{item.nombre}</Card.Title>
             <Card.Text>{item.descripcion}</Card.Text>

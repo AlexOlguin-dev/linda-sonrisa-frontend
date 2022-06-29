@@ -237,6 +237,14 @@ const Proveedores = props => {
     })
   }
 
+  function openAddProductosProveedor(){
+    if (selected_proveedor !== '') {
+      handleShowAsignProduct()
+    }else{
+      alert("Por favor seleccione un proveedor antes de proceder")
+    }
+  }
+
   function render_proveedores_tabla(){
     return proveedores.map((item) => {
       return (
@@ -319,7 +327,7 @@ const Proveedores = props => {
               <Card.Title>Nombre del proveedor</Card.Title>
               <Card.Text>
               <div className="d-grid gap-2 pt-3">
-                <Button variant="primary" onClick={handleShowAsignProduct}>
+                <Button variant="primary" onClick={openAddProductosProveedor}>
                   Agregar producto
                 </Button>
               </div>

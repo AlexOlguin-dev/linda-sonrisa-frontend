@@ -125,62 +125,6 @@ const Admin = () => {
           {route === INFORMES &&
             <Informes />
           }
-
-          {/*route === ORDER &&
-            <><Row><Col xs="3">
-              <Form.Select aria-label="proveedor" style={{ marginTop: "20px" }}>
-                <option>Seleccione Proveedor</option>
-                <option value="1">Juanito Cepillo</option>
-                <option value="2">Mario Moreno Insumos</option>
-                <option value="3">Aquiles Castro Insumos médicos</option>
-              </Form.Select>,
-              <Button variant="primary" style={{ marginTop: "10px" }}>Mostrar productos</Button>{' '}
-            </Col></Row>
-              <Row>
-                <Col xs="5">
-                  <Table responsive="sm">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>ID</th>
-                        <th>Nombre Producto</th>
-                        <th>Stock</th>
-                        <th>Costo</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>12</td>
-                        <td>Cepillo cerdas duras</td>
-                        <td>23</td>
-                        <td>$2000</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>10</td>
-                        <td>Hilo dental</td>
-                        <td>30</td>
-                        <td>$3500</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>Gasa esterilizada</td>
-                        <td>50</td>
-                        <td>$4000</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Button variant="primary" style={{ marginTop: "10px" }}>Agregar Productos</Button>{' '}
-                </Col>
-              </Row>
-            </>
-          */}
     </Col>
       </Row >
 

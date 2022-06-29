@@ -40,12 +40,6 @@ const Inventario = props => {
           <td>{item.stock}</td>
           <td>{item.costo}</td>
           <td>{item.rut_proveedor}</td>
-          <td>
-          <ButtonGroup size="sm">
-            <Button variant="danger"><FaTrash size={15} /></Button>
-            <Button variant="info"><FaEdit size={15} /></Button>
-          </ButtonGroup>
-          </td>
         </tr>
       )
     })
@@ -81,7 +75,6 @@ const Inventario = props => {
                       <th>Stock</th>
                       <th>Costo</th>
                       <th>Proveedor</th>
-                      <th>Opciones</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Row, Col, Form, Button, Modal, ButtonGroup } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
+import { FileUploader } from "react-drag-drop-files";
 
 const Tratamientos = props => {
 
   //VARIABLES------------------------------------------------------------------------------------------------------
+  const fileTypes = ["JPG", "PNG", "GIF"];
+  const [file, setFile] = useState(null);
   const [tratamientos, set_tratamientos] = useState([]);
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -16,6 +19,10 @@ const Tratamientos = props => {
   const [nombre_edit, set_nombre_edit] = useState('');
   const [precio_edit, set_precio_edit] = useState('');
   const [descripcion_edit, set_descripcion_edit] = useState('');
+
+  const handleChange = (file) => {
+    setFile(file);
+  };
 
   //LOADERS--------------------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -153,8 +160,8 @@ const Tratamientos = props => {
     return tratamientos.map((item) => {
       return (
         <Col className='p-2' xs={3}>
-          <Card style={{ minHeight: '530px' }}>
-            <Card.Img variant="top" src={require("../Images/extraccion.jpg")} />
+          <Card style={{ minHeight: '620px' }}>
+            <Card.Img variant="top" src={require("../../assets/img/tratamientos/"+item.imagen)} />
             <Card.Body>
               <Card.Title>{item.nombre}</Card.Title>
               <Card.Text>
@@ -218,6 +225,8 @@ const Tratamientos = props => {
             <Form.Label className="fs-5 text">Descripcion</Form.Label>
             <Form.Control as="textarea" rows={3} onChange={(e) => handleDescription(e)} value={descripcion} />
           </Form.Group>
+
+          <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
 
         </Modal.Body>
         <Modal.Footer>
