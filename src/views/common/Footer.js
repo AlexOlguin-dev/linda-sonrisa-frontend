@@ -49,7 +49,7 @@ const Footer = props => {
                 <a href="./login_odontologo" className="text-reset">Profesional</a>
               </p>
               <p>
-                <a href="#!" className="text-reset">Administrativo</a>
+                <a href="/login_administrativo" className="text-reset">Administrativo</a>
               </p>
               <p>
                 <a href="./login_admin" className="text-reset">Administrador</a>

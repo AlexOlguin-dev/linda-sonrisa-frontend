@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Form, Button, Card } from 'react-bootstrap';
 import 'react-pro-sidebar/dist/css/styles.css';
-import UserStore from '../stores/UserStore';
 import Cookies from 'universal-cookie';
-import { FaCalendar } from 'react-icons/fa';
+import { FaCalendar, FaPrint } from 'react-icons/fa';
+//import PdfComponent from './PDF/PdfComponent';
+import jsPDF from 'jspdf';
 
 const cookies = new Cookies();
 
@@ -61,6 +62,17 @@ const Resumen = props => {
     window.location.href="./dashboard_cliente"
   }
 
+  function PDFgenerate(){
+    var doc = new jsPDF('landscape','px','a4','false');
+    doc.text(40,60,'TICKET DE ATENCIÓN');
+    doc.line(40,70,550,70,'S');
+    doc.text(40,90,nombre_especialista);
+    doc.text(40,105,nombre_especialidad);
+    doc.text(40,120,cookies.get('CLIENTE_fecha_cita_agendada')+" "+cookies.get('CLIENTE_hora'));
+    doc.text(40,135,cookies.get('nombre_paciente') + " " + cookies.get('apellido_paciente'));
+    doc.save('ticket_atencion_'+cookies.get('rut_cliente')+'.pdf');
+  }
+
   return(
     <>
     <div className='p-5' style={{ display: 'flex', justifyContent: 'center' }}>
@@ -84,11 +96,20 @@ const Resumen = props => {
               <Col className="fs-3 text text-primary">{cookies.get('CLIENTE_fecha_cita_agendada')} {cookies.get('CLIENTE_hora')}</Col>
             </Row>
             <Row>
-              <Col className="fs-4 text">{cookies.get('username') + " " + cookies.get('username2')}</Col>
+              <Col className="fs-4 text">{cookies.get('nombre_paciente') + " " + cookies.get('apellido_paciente')}</Col>
             </Row>
           </Card.Text>
-
-          <Button variant="primary" onClick={() => aceptar_cita()}>ACEPTAR</Button>
+          
+          <Row>
+            <Col xs={1}>
+              {/*<PdfComponent />*/}
+              <Button variant="outline-primary" onClick={PDFgenerate}><FaPrint /></Button>
+            </Col>
+            <Col xs={11}>
+              <Button variant="primary" style={{ marginRight: '70px' }} onClick={() => aceptar_cita()}>ACEPTAR</Button>
+            </Col>
+          </Row>
+          
         </Card.Body>
       </Card>
     </div>

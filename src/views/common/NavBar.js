@@ -21,6 +21,9 @@ import Servicios from "../main/Servicios";
 //ODONTOLOGO
 import LoginFormOdontologo from "../login/LoginOdontologo";
 import DashboardEspecialista from "../especialista/Dashboard";
+//ADMINISTRATIVO
+import LoginAdministrativo from "../login/LoginAdministrativo";
+import DashboardAdministrativo from "../administrativo/DashboardAdministrativo";
 
 const NavBar = props => {
 
@@ -87,6 +90,8 @@ const NavBar = props => {
           <Route path="/admin" element={<Admin />} />
           <Route path="/login_odontologo" element={<LoginFormOdontologo />} />
           <Route path="/dashboard_odontologo" element={<DashboardEspecialista />} />
+          <Route path="/login_administrativo" element={<LoginAdministrativo />} />
+          <Route path="/dashboard_administrativo" element={<DashboardAdministrativo />} />
         </Routes>
 
         <Footer />

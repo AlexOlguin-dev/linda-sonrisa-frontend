@@ -37,7 +37,7 @@ const Main = props => {
     return tratamientos.map((item) => {
       return(
         <Card className='m-5'>
-          {/*<Card.Img variant="top" src={require("../../assets/img/tratamientos/"+item.imagen)} />*/}
+          <Card.Img variant="top" src={require("../../assets/img/tratamientos/"+item.imagen)} />
           <Card.Body>
             <Card.Title>{item.nombre}</Card.Title>
             <Card.Text>{item.descripcion}</Card.Text>
@@ -147,7 +147,7 @@ const Main = props => {
                   <Form.Control size="lg" type="text" placeholder="Tu Telefono" />
                 </Form.Group>
                 <Form.Group className="mb-5 mt-5">
-                  <Form.Control as="textarea" size="lg" placeholder='Escribe aqui tu comentario' rows={12} />
+                  <Form.Control as="textarea" size="lg" placeholder='Escribe aqui tu comentario' rows={5} />
                 </Form.Group>
                 <Form.Group className="mb-5 mt-5">
                 <div className="d-grid gap-2">

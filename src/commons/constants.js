@@ -17,6 +17,7 @@ export const CLIENT = 'client'
 export const CLIENTES_ADMIN = 'clientes_admin'
 export const REGISTRAR_ADMIN = 'registrar_boletas'
 export const RECEPCIONAR_ADMIN = 'recepcionar_pedidos'
+export const BOLETA = 'boleta'
 
 ///constantes especialista
 export const RESERVA_HORA_ESPECIALISTA = 'reserva_hora_especialista'
