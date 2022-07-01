@@ -113,6 +113,7 @@ const Pacientes = props => {
       .then(result => {
         if (result === 'ok') {
           get_pacientes()
+          handleCloseEdit()
         }else{
           alert("Se produjo un error al eliminar el paciente")
         }

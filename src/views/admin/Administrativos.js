@@ -103,6 +103,8 @@ const Pacientes = props => {
           .then(result => {
             if (result === 'ok') {
               get_administrativo()
+              clear_administrativo_edit()
+              handleClose()
             }else{
               alert("No se pudo crear el Administrativo")
             }
@@ -147,7 +149,7 @@ const Pacientes = props => {
         set_nombre_completo_edit(result[0].nombre_completo)
         set_cargo_edit(result[0].cargo)
         setStartDateEdit(new Date(result[0].fecha_contratacion))
-        set_estado_contrato(result[0].estado_contrato)
+        set_estado_contrato_edit(result[0].estado_contrato)
         handleShowEdit()
       })
       .catch(error => console.log('error', error));
@@ -166,11 +168,21 @@ const Pacientes = props => {
       .then(result => {
         if (result === 'ok') {
           get_administrativo()
+          handleCloseEdit()
         }else{
           alert('No se puedo editar el administrativo')
         }
       })
       .catch(error => console.log('error', error));
+  }
+
+  function clear_administrativo_edit(){
+    set_rut('')
+    set_password('')
+    set_password_confirm('')
+    set_nombre_completo('')
+    set_cargo('')
+    set_estado_contrato('ACTIVO')
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------

@@ -23,6 +23,7 @@ const Proveedores = props => {
   const [telefono_edit, set_telefono_edit] = useState('');
   const [mail_edit, set_mail_edit] = useState('');
   const [direccion_edit, set_direccion_edit] = useState('');
+  const [searched_product, set_searched_product] = useState('');
 
   //LOADERS--------------------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -82,6 +83,8 @@ const Proveedores = props => {
         .then(result => {
           if (result === 'ok') {
             list_proveedores()
+            clear_proveedor_create()
+            handleCloseCreate()
           }else{
             alert("No se pudo crear un proveedor")
           }
@@ -111,19 +114,23 @@ const Proveedores = props => {
   }
 
   function get_productos_asignados(){
-    var myHeaders = new Headers();
-    myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6InBobUx1clRPc1dmVDNyUXFSTnUyQXc9PSIsInZhbHVlIjoiZ09MZ21aNzdoTFBpMmRPTCtQNkxON0E2Rjc1NmdoYzJyODBMdW9LdDJDRk0ya2pZeHBWYTliNThuYVoxQk5CMVRrRkJZc1VpNnBZMWxnSjZlSFdwWkVjZGhSRjUxdkQveHFQK1hjRk92NHgrNXl1RndzNDJKRjYybkdkVzk1QW0iLCJtYWMiOiJkZTdhYTEzZTA2NGJhOWI5YjY0NTljZTU3Y2ZmMjFjNjMwM2Y4MTc1MDhlMmFmMWQ1YTdkMzkwNjk2NzhhN2RiIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImJFMzFIZGlxSkJhUTRaUHhmQVo4bGc9PSIsInZhbHVlIjoid3AzczZmWks1Zy9tSzNxYXFObE4rZDcxNmRQbllQOVRRVkd0TXdHL1FhUnZoT2xrbUxJL1ZrTWJmaFZmTUxpNHhLR0pLUThkb3VXOUQ4L0hPWkY3Uk5SSjM2NDNheTRRdndJYjFGUFZ0ZW91RjRwTlZaSDBoRGQyQ3kwTDY5RFEiLCJtYWMiOiIzZjRiMjhlODM4Nzk3N2IzYzcwZjE1NGY1MmFkMGVmZDBiNjkxZDAwYjg5ZDk5ZDE5YjNiYzlkZjRlYTg2YjRjIiwidGFnIjoiIn0%3D");
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-    fetch("http://127.0.0.1:8000/get_productos_asignados?rut_proveedor="+selected_proveedor, requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        set_productos_asignados(result)
-      })
-      .catch(error => console.log('error', error));
+    if (selected_proveedor === '') {
+      alert("Por favor escoje un Proveedor antes de continuar")
+    }else{
+      var myHeaders = new Headers();
+      myHeaders.append("Cookie", "XSRF-TOKEN=eyJpdiI6InBobUx1clRPc1dmVDNyUXFSTnUyQXc9PSIsInZhbHVlIjoiZ09MZ21aNzdoTFBpMmRPTCtQNkxON0E2Rjc1NmdoYzJyODBMdW9LdDJDRk0ya2pZeHBWYTliNThuYVoxQk5CMVRrRkJZc1VpNnBZMWxnSjZlSFdwWkVjZGhSRjUxdkQveHFQK1hjRk92NHgrNXl1RndzNDJKRjYybkdkVzk1QW0iLCJtYWMiOiJkZTdhYTEzZTA2NGJhOWI5YjY0NTljZTU3Y2ZmMjFjNjMwM2Y4MTc1MDhlMmFmMWQ1YTdkMzkwNjk2NzhhN2RiIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImJFMzFIZGlxSkJhUTRaUHhmQVo4bGc9PSIsInZhbHVlIjoid3AzczZmWks1Zy9tSzNxYXFObE4rZDcxNmRQbllQOVRRVkd0TXdHL1FhUnZoT2xrbUxJL1ZrTWJmaFZmTUxpNHhLR0pLUThkb3VXOUQ4L0hPWkY3Uk5SSjM2NDNheTRRdndJYjFGUFZ0ZW91RjRwTlZaSDBoRGQyQ3kwTDY5RFEiLCJtYWMiOiIzZjRiMjhlODM4Nzk3N2IzYzcwZjE1NGY1MmFkMGVmZDBiNjkxZDAwYjg5ZDk5ZDE5YjNiYzlkZjRlYTg2YjRjIiwidGFnIjoiIn0%3D");
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+      fetch("http://127.0.0.1:8000/get_productos_asignados?rut_proveedor="+selected_proveedor, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          set_productos_asignados(result)
+        })
+        .catch(error => console.log('error', error));
+    }
   }
 
   function search_producto(e){
@@ -138,6 +145,7 @@ const Proveedores = props => {
       .then(response => response.json())
       .then(result => {
         set_found_products(result)
+        set_searched_product(e)
       })
       .catch(error => console.log('error', error));
   }
@@ -155,6 +163,7 @@ const Proveedores = props => {
       .then(result => {
         if (result === 'ok') {
           get_productos_asignados()
+          search_producto(searched_product)
         }else{
           alert("No se pudo asignar el producto")
         }
@@ -216,11 +225,20 @@ const Proveedores = props => {
       .then(result => {
         if (result === 'ok') {
           list_proveedores()
+          handleCloseEditProveedor()
         }else{
           alert("No se pudo editar el proveedor")
         }
       })
       .catch(error => console.log('error', error));
+  }
+
+  function clear_proveedor_create(){
+    set_rut('')
+    set_nombre('')
+    set_telefono('')
+    set_mail('')
+    set_direccion('')
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------

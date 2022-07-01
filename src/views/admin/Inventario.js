@@ -38,7 +38,7 @@ const Inventario = props => {
           <td>{item.id}</td>
           <td>{item.nombre}</td>
           <td>{item.stock}</td>
-          <td>{item.costo}</td>
+          <td>${item.costo}</td>
           <td>{item.rut_proveedor}</td>
         </tr>
       )

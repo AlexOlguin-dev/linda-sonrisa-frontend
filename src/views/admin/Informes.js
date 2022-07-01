@@ -6,7 +6,8 @@ import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
 const Informes = props => {
   return(
     <>
-      <Row>
+      
+      {/*<Row>
         <Col xs={6} className='p-2'>
           <Card>
             <Card.Body>
@@ -30,7 +31,7 @@ const Informes = props => {
             </Card.Body>
           </Card>
         </Col>
-      </Row>
+      </Row>*/}
     </>
   )
 }

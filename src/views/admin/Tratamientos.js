@@ -74,6 +74,8 @@ const Tratamientos = props => {
         .then(result => {
           if (result === 'ok') {
             get_tratamientos()
+            clear_tratamiento_create()
+            handleClose()
           }else{
             alert("No se pudo crear el servicio")
           }
@@ -134,8 +136,15 @@ const Tratamientos = props => {
       .then(response => response.json())
       .then(result => {
         get_tratamientos()
+        handleCloseEdit()
       })
       .catch(error => console.log('error', error));
+  }
+
+  function clear_tratamiento_create(){
+    set_nombre('')
+    set_precio('')
+    set_descripcion('')
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------
@@ -160,8 +169,8 @@ const Tratamientos = props => {
     return tratamientos.map((item) => {
       return (
         <Col className='p-2' xs={3}>
-          <Card style={{ minHeight: '620px' }}>
-            <Card.Img variant="top" src={require("../../assets/img/tratamientos/"+item.imagen)} />
+          <Card style={{ minHeight: '350px' }}>
+            {/*<Card.Img variant="top" src={require("../../assets/img/tratamientos/"+item.imagen)} />*/}
             <Card.Body>
               <Card.Title>{item.nombre}</Card.Title>
               <Card.Text>
@@ -226,7 +235,7 @@ const Tratamientos = props => {
             <Form.Control as="textarea" rows={3} onChange={(e) => handleDescription(e)} value={descripcion} />
           </Form.Group>
 
-          <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+          {/*<FileUploader handleChange={handleChange} name="file" types={fileTypes} />*/}
 
         </Modal.Body>
         <Modal.Footer>

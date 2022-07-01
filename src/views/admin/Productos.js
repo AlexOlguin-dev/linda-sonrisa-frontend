@@ -67,6 +67,8 @@ const Productos = props => {
         .then(result => {
           if (result === 'ok') {
             list_productos()
+            clear_producto_create()
+            handleCloseCreate()
           }else{
             alert("No se ha podido crear el producto")
           }
@@ -127,8 +129,15 @@ const Productos = props => {
       .then(response => response.json())
       .then(result => {
         list_productos()
+        handleCloseEdit()
       })
       .catch(error => console.log('error', error));
+  }
+
+  function clear_producto_create(){
+    set_nombre('')
+    set_stock('')
+    set_costo('')
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------

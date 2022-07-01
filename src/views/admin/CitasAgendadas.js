@@ -53,7 +53,8 @@ const CitasAgendadas = props => {
         <tr>
           <td>{item.id}</td>
           <td>{item.rut_paciente}</td>
-          <td>{item.rut_especialista}</td>
+          <td>{item.nombre_paciente}</td>
+          <td>{item.nombre_especialista}</td>
           <td>{item.fecha}</td>
           <td>{item.hora}</td>
           <td>{item.estado}</td>
@@ -79,8 +80,9 @@ const CitasAgendadas = props => {
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Paciente</th>
-                      <th>Profesional</th>
+                      <th>Rut Paciente</th>
+                      <th>Nombre Paciente</th>
+                      <th>Nombre Profesional</th>
                       <th>Fecha</th>
                       <th>Hora</th>
                       <th>Estado</th>

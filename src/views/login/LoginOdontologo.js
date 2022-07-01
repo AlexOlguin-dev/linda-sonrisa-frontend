@@ -46,6 +46,7 @@ class LoginFormOdontologo extends Component{
         .then(result => {
           if (result.resp === 'autorizado') {
             cookies.set('rut_odontologo',this.state.username);
+            cookies.set('nombre_odontologo',result.user[0].nombre_completo);
             cookies.set('isLoggedIn','logeado');
             window.location.href="./dashboard_odontologo";
           }else{

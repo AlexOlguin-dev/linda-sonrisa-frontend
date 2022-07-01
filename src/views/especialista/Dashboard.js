@@ -8,12 +8,20 @@ import CitasAgendadas from './CitasAgendadas';
 import Diagnostico from './Diagnosticos';
 import Tratamientos from './Tratamientos';
 import SolicitudInsumos from './SolicitudInsumos';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const Dashboard = props => {
   const [route, setRoute] = useState(RESERVA_HORA_ESPECIALISTA);
   return(
     <>
       <div>
+        <Row>
+          <Col className='text-center bg-secondary text-white'>
+            <h1 class="display-4">Bienvenido {cookies.get('nombre_odontologo')}</h1>
+          </Col>
+        </Row>
         <Row>
           <Col xs="2" style={{ minHeight: '600px' }}>
             {/*-----------------SIDEBAR--------------*/}
@@ -37,7 +45,7 @@ const Dashboard = props => {
                       itemId: CLIENTES_ESPECIALISTA,
                     },
                     {
-                      title: 'Tratamientos Agendados',
+                      title: 'Pacientes y Tratamientos Agendados',
                       itemId: TRATAMIENTOS_AGENDADOS,
                     }
                   ]

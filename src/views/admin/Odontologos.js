@@ -102,6 +102,8 @@ const Odontologos = props => {
           .then(result => {
             if (result === 'ok') {
               get_odontologos()
+              clear_form_create()
+              handleCloseCreate()
             }else{
               alert('No se pudo guardar el odontologo')
             }
@@ -196,6 +198,7 @@ const Odontologos = props => {
       .then(result => {
         if (result === 'ok') {
           get_odontologos()
+          handleCloseEdit()
         }else{
           alert('No se pudo guardar el odontologo')
         }
@@ -257,6 +260,14 @@ const Odontologos = props => {
         }
       })
       .catch(error => console.log('error', error));
+  }
+
+  function clear_form_create(){
+    set_rut('')
+    set_nombre_completo('')
+    set_password('')
+    set_password_confirm('')
+    set_estado_contrato('ACTIVO')
   }
 
   //RENDERISADO DE TABLAS-------------------------------------------------------------------------------------------

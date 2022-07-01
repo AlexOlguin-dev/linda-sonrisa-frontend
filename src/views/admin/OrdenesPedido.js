@@ -125,6 +125,7 @@ const OrdenesPedido = props => {
       .then(result => {
         if (result === 'ok') {
           get_ordenes_pedido()
+          handleCloseEdit()
         }else{
           alert('No se pudo crear la orden de pedido')
         }
@@ -168,9 +169,10 @@ const OrdenesPedido = props => {
         <tr>
           <td>{item.id_solicitud}</td>
           <td>{item.cant}</td>
+          <td>{item.nombre_producto}</td>
+          <td>{item.rut_especialista}</td>
+          <td>{item.nombre_especialista}</td>
           <td>{item.estado_solicitud}</td>
-          <td>{item.id_productos}</td>
-          <td>{item.id_tratamiento_agendado}</td>
           <td>
             <ButtonGroup size="sm">
               <Button variant="danger"><FaTrash size={15} onClick={() => eliminar_orden_pedido(item.id_solicitud)} /></Button>
@@ -234,9 +236,10 @@ const OrdenesPedido = props => {
                     <tr>
                       <th>ID</th>
                       <th>Cantidad</th>
-                      <th>Estado</th>
                       <th>Producto</th>
-                      <th>Tratamiento agendado</th>
+                      <th>Rut Especialista</th>
+                      <th>Nombre Especialista</th>
+                      <th>Estado</th>
                       <th>Opciones</th>
                     </tr>
                   </thead>
@@ -342,6 +345,7 @@ const OrdenesPedido = props => {
             <option value="PENDIENTE">Pendiente</option>
             <option value="ENTREGADO">Entregado</option>
             <option value="RECIBIDO">Recibido</option>
+            <option value="ANULADO">Anulado</option>
           </Form.Select>
 
         </Modal.Body>
