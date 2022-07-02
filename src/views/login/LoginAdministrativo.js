@@ -41,11 +41,11 @@ class LoginAdministrativo extends Component{
         headers: myHeaders,
         redirect: 'follow'
       };
-      fetch("http://127.0.0.1:8000/login?username="+this.state.username+"&pass="+this.state.password, requestOptions)
+      fetch("http://127.0.0.1:8000/administrativo_login?username="+this.state.username+"&pass="+this.state.password, requestOptions)
         .then(response => response.json())
         .then(result => {
           if (result.resp === 'autorizado') {
-            cookies.set('username',result.user[0].username,{path:'/'});
+            cookies.set('username',result.user[0].nombre_completo,{path:'/'});
             cookies.set('nombre',result.user[0].nombre_completo,{path:'/'});
             cookies.set('isLoggedIn','logeado',{path:'/'});
             window.location.href="/dashboard_administrativo";

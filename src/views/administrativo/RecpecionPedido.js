@@ -10,6 +10,8 @@ const RecepcionPedido = () => {
     const [show, setShow] = useState(false);
     const [estado, set_estado] = useState('');
     const [id_solicitud, set_id_solicitud] = useState('');
+    const [cant, set_cant] = useState('');
+    const [id_producto, set_id_producto] = useState('');
 
     //FORMATOS------------------------------------------------------------------------------------------------
 
@@ -35,9 +37,11 @@ const RecepcionPedido = () => {
         .catch(error => console.log('error', error));
     }
 
-    function get_status(id,estado){
+    function get_status(id,estado,cant,id_productos){
       set_id_solicitud(id)
       set_estado(estado)
+      set_cant(cant)
+      set_id_producto(id_productos)
       handleShow()
     }
 
@@ -49,7 +53,7 @@ const RecepcionPedido = () => {
         headers: myHeaders,
         redirect: 'follow'
       };
-      fetch("http://127.0.0.1:8000/change_estado?id_solicitud="+id_solicitud+"&estado="+estado, requestOptions)
+      fetch("http://127.0.0.1:8000/change_estado?id_solicitud="+id_solicitud+"&estado="+estado+"&cant="+cant+"&id_producto="+id_producto, requestOptions)
         .then(response => response.json())
         .then(result => {
           if (result === 'ok') {
@@ -81,7 +85,7 @@ const RecepcionPedido = () => {
             <td>{item.rut_especialista}</td>
             <td>{item.nombre_especialista}</td>
             <td>
-              <Button variant="success" onClick={() => get_status(item.id_solicitud,item.estado_solicitud)}>Cambiar Estado</Button>
+              <Button variant="success" onClick={() => get_status(item.id_solicitud,item.estado_solicitud,item.cant,item.id_productos)}>Cambiar Estado</Button>
             </td>
           </tr>
         )
@@ -120,7 +124,7 @@ const RecepcionPedido = () => {
         {/** MODAL EDIT ESTADO */}
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Cambiar estado solicitud - "id"</Modal.Title>
+            <Modal.Title>Cambiar estado solicitud - {id_solicitud}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
 

@@ -308,7 +308,7 @@ const Dashboard = props => {
         <Form.Group className="mb-3">
           <Form.Label className="fs-5 text">Profesional:</Form.Label>
           <Form.Select aria-label="Default select example" onChange={select_especialista}>
-            <option>Seleccione un profecional</option>
+            <option>Seleccione un profesional</option>
             {render_especialistas()}
           </Form.Select>
         </Form.Group>

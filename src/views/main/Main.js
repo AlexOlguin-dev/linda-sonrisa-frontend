@@ -37,7 +37,7 @@ const Main = props => {
     return tratamientos.map((item) => {
       return(
         <Card className='m-5'>
-          <Card.Img variant="top" src={require("../../assets/img/tratamientos/"+item.imagen)} />
+          <Card.Img variant="top" src={require("../../assets/img/tratamiento_"+item.index+".png")} />
           <Card.Body>
             <Card.Title>{item.nombre}</Card.Title>
             <Card.Text>{item.descripcion}</Card.Text>
@@ -62,8 +62,8 @@ const Main = props => {
             alt="First slide"
           />
           <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            <h3>LindaSonrisa</h3>
+            <p>Imagenologia en nuestra sede.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -73,8 +73,8 @@ const Main = props => {
             alt="Second slide"
           />
           <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>LindaSonrisa</h3>
+            <p>Contamos con los mejores profesionales</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -84,9 +84,9 @@ const Main = props => {
             alt="Third slide"
           />
           <Carousel.Caption>
-            <h3>Third slide label</h3>
+            <h3>LindaSonrisa</h3>
             <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+              Limpieza y Blanquiamiento
             </p>
           </Carousel.Caption>
         </Carousel.Item>
@@ -97,9 +97,9 @@ const Main = props => {
             alt="Third slide"
           />
           <Carousel.Caption>
-            <h3>Third slide label</h3>
+            <h3>LindaSonrisa</h3>
             <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+              Todos nuestros examenes son realizados en nuestra sede
             </p>
           </Carousel.Caption>
         </Carousel.Item>
@@ -147,7 +147,7 @@ const Main = props => {
                   <Form.Control size="lg" type="text" placeholder="Tu Telefono" />
                 </Form.Group>
                 <Form.Group className="mb-5 mt-5">
-                  <Form.Control as="textarea" size="lg" placeholder='Escribe aqui tu comentario' rows={5} />
+                  <Form.Control as="textarea" size="lg" placeholder='Escribe aqui tu comentario' rows={12} />
                 </Form.Group>
                 <Form.Group className="mb-5 mt-5">
                 <div className="d-grid gap-2">
@@ -181,27 +181,25 @@ const Main = props => {
           <h1 class="display-1">NUESTRA MISION</h1>
 
           <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px', paddingTop: '50px' }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a 
-            type specimen book. It has survived not only five centuries, but also the 
-            leap into electronic typesetting, remaining essentially unchanged. It was 
-            popularised in the 1960s with the release of Letraset sheets containing Lorem 
-            Ipsum passages, and more recently with desktop publishing software like Aldus 
-            PageMaker including versions of Lorem Ipsum.
+          Realizar  atención  dental y tratamientos de estética, que mejoren la salud y contribuyan al bienestar y la felicidad de nuestros pacientes.
           </p>
+          <h2 class="display-1">NUESTRA VISION</h2>
 
           <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a 
-            type specimen book. It has survived not only five centuries, but also the 
-            leap into electronic typesetting, remaining essentially unchanged. It was 
-            popularised in the 1960s with the release of Letraset sheets containing Lorem 
-            Ipsum passages, and more recently with desktop publishing software like Aldus 
-            PageMaker including versions of Lorem Ipsum.
+            Mediante nuestro trabajo aspiramos alcanzar:
           </p>
-
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+           Pacientes: logros perceptibles en su salud bucal y en su estética, a precios razonables, que les permitan una calidad de vida mejor. 
+          </p>
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+           Profesionales y técnicos: Una relación perdurable, que promueva su desarrollo y especialización, con trabajo en equipo en beneficio de los pacientes.
+          </p>
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+           Proveedores y asociados: Trabajar juntos para brindar servicios integrales de salud y estética de calidad, con relaciones justas y de confianza recíproca.
+          </p>
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+           Comunidad: Contribuir a mejorar la educación sanitaria, que fomente una salud bucal preventiva. 
+          </p>
           <hr />
 
         </Col>
@@ -218,46 +216,64 @@ const Main = props => {
         <Col xs='4' className='p-5'>
           <img
             className="d-block w-100"
-            src={require("../../assets/img/carousel/pexels-pavel-danilyuk-6812456.jpg")}
+            src={require("../../assets/img/carousel/endodoncia-SmartDent-400x205.jpg")}
             alt="First slide"
           />
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+          Endodoncia
+           </p>
         </Col>
         <Col xs='4' className='p-5'>
           <img
             className="d-block w-100"
-            src={require("../../assets/img/carousel/pexels-pavel-danilyuk-6812456.jpg")}
+            src={require("../../assets/img/carousel/ortodoncia-SmartDent-400x205.jpg")}
             alt="First slide"
           />
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+          Ortodoncia
+           </p>
         </Col>
         <Col xs='4' className='p-5'>
           <img
             className="d-block w-100"
-            src={require("../../assets/img/carousel/pexels-pavel-danilyuk-6812456.jpg")}
+            src={require("../../assets/img/carousel/cirugia.png")}
             alt="First slide"
           />
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+          Cirugia
+           </p>
         </Col>
       </Row>
       <Row>
         <Col xs='4' className='p-5'>
           <img
             className="d-block w-100"
-            src={require("../../assets/img/carousel/pexels-pavel-danilyuk-6812456.jpg")}
+            src={require("../../assets/img/carousel/odontologia-pediatrica-SmartDent-400x205.jpg")}
             alt="First slide"
           />
+          <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+          Odontología Pediátrica
+           </p>
         </Col>
         <Col xs='4' className='p-5'>
           <img
             className="d-block w-100"
-            src={require("../../assets/img/carousel/pexels-pavel-danilyuk-6812456.jpg")}
+            src={require("../../assets/img/carousel/plano-relajación.png")}
             alt="First slide"
           />
+           <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+            Bruxismo 
+           </p>
         </Col>
         <Col xs='4' className='p-5'>
           <img
             className="d-block w-100"
-            src={require("../../assets/img/carousel/pexels-pavel-danilyuk-6812456.jpg")}
+            src={require("../../assets/img/carousel/rehabilitacion-SmartDent-400x205.jpg")}
             alt="First slide"
           />
+           <p className='m-2' style={{ fontSize: '20PX', paddingBottom: '50px' }}>
+           Rehabilitación
+           </p>
         </Col>
       </Row>
       {/** -----------------FOTOS--------------- */}

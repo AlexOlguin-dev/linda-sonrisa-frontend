@@ -7,12 +7,21 @@ import { CLIENT, ORDENES_PEDIDO, CITAS_AGENDADAS, CLIENTE, BOLETA } from '../../
 import Recepcion from './Recepcion';
 import Boletas from './Boleta';
 import RecepcionPedido from './RecpecionPedido';
+import Cookies from 'universal-cookie';
+//username
+
+const cookies = new Cookies();
 
 const DashboardAdministrativo = () => {
     const [route, setRoute] = useState(CLIENT);
 
     return (
       <div>
+        <Row>
+          <Col className='text-center bg-secondary text-white'>
+            <h1 class="display-4">Bienvenido {cookies.get('username')}</h1>
+          </Col>
+        </Row>
         <Row>
           <Col xs="2" style={{ minHeight: '600px' }}>
             {/*-----------------SIDEBAR--------------*/}
